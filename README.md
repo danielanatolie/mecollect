@@ -28,10 +28,10 @@ Me Collect is a robust collection management system where users can record data 
 ```
 
 ### Usage
-@todo
-```
-@todo
-```
+Install all project dependencies by running `yarn`.
+Once the dependencies are installed, run `yarn dev` to start the client and server. 
+You will then be able to access the application at localhost:3000.
+
 
 ### Built With
 

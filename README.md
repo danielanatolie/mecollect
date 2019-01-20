@@ -9,7 +9,7 @@ Me Collect is a robust collection management system where users can record data 
 
 ### Team
 * Daniel Anatolie - 
-* Alex Ford - 
+* Alex Ford - 18361148
 * Shreeshaa Goyal -
 * Frances Sin - 16888142
 

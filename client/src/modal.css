@@ -1,0 +1,16 @@
+body .modal {
+	position:fixed;
+	border-radius: 4px;
+	top:40px;
+	left:40px;
+	right:40px;
+	bottom:40px;
+	border: 1px solid #ccc;
+	background:#fff;
+	overflow:auto;
+	outline:none;
+	padding:20px;
+    display: block;
+    text-align: center;
+    opacity: 0.99;
+}

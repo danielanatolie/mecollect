@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import Modal from './modal.js';
+
 class App extends Component {
   state = {
     response: '',
     post: '',
     responseToPost: '',
+
+    showModal: false,
+    email: "",
+    password: ""
   };
 
   componentDidMount() {
@@ -33,6 +39,26 @@ class App extends Component {
     });
     const body = await response.text();
     this.setState({ responseToPost: body });
+  };
+
+  handleShowModalClick = async () => {this.setState({ showModal: true })};
+  
+  handleCloseModal = async () => {this.setState({ showModal: false })};
+  
+  handleModalSubmit = async e => {
+    e.preventDefault();
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email:this.state.email,
+        password:this.state.password 
+      })
+    });
+    const body = await response.text();
+    this.setState({responseToPost:body});
   };
 
   render() {
@@ -65,6 +91,53 @@ class App extends Component {
           <button type="submit">Submit</button>
         </form>
         <p>{this.state.responseToPost}</p>
+
+        <div>
+          <button 
+            type='button'
+            onClick={this.handleShowModalClick}>Login</button>
+          {this.state.showModal ? (
+            <Modal onClose={this.handleCloseModal}>
+              <h1>Sign In</h1>
+              <form onSubmit={this.handleModalSubmit}>
+                <label htmlFor="email">
+                  <b>Email</b>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Email"
+                  name="email"
+                  onChange={
+                    e => 
+                    this.setState({
+                      email: e.target.value
+                    })
+                  }
+                />
+                <br />
+                <label htmlFor="psw">
+                  <b>Password</b>
+                </label>
+                <input
+                  type="password"
+                  placeholder="Enter Password"
+                  name="psw"        
+                  onChange={
+                    e => 
+                    this.setState({
+                      password: e.target.value
+                    })
+                  }
+                />
+                <br />
+                <button 
+                type="submit">Submit</button>
+              </form>
+            </Modal>
+          ) : null}
+        </div>
+
+
       </div>
     );
   }

@@ -28,8 +28,10 @@ Me Collect is a robust collection management system where users can record data 
 ```
 
 ### Usage
-Install all project dependencies by running `yarn`.
-Once the dependencies are installed, run `yarn dev` to start the client and server. 
+1) Install all project dependencies by running `yarn`.
+2) Make sure you have Postgres installed on your machine, run the backend/properties.sql script using:
+'psql -f properties.sql'
+3) Run `yarn dev` to start the client and server. 
 You will then be able to access the application at localhost:3000.
 
 
@@ -37,7 +39,7 @@ You will then be able to access the application at localhost:3000.
 
 * [React Redux](https://react-redux.js.org/) 
 * [Node.js](https://nodejs.org/en/docs/) 
-* [MySQL](https://dev.mysql.com/doc/) 
+* [PostgreSQL](https://www.postgresql.org/) 
 
 
 

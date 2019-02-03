@@ -39,7 +39,7 @@ You will then be able to access the application at localhost:3000.
 
 * [React Redux](https://react-redux.js.org/) 
 * [Node.js](https://nodejs.org/en/docs/) 
-* [MySQL](https://dev.mysql.com/doc/) 
+* [PostgreSQL](https://www.postgresql.org/) 
 
 
 

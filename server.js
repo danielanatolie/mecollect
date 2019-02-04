@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
+var db = require('./backend/queries');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -15,6 +16,7 @@ app.post('/api/world', (req, res) => {
     `I received your POST request. This is what you sent me: ${req.body.post}`,
   );
 });
+
 
 app.post('/api/login', (req, res) => {
   console.log(req.body);
@@ -31,4 +33,10 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+
+app.get('/api/users', (req, res) => {
+  console.log(db.getAllUsers(req, res));
+});
+
+app.listen(port, () => console.log(`Listening on port ${port}`));     
+

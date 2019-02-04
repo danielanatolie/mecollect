@@ -7,8 +7,10 @@
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "dependencies": {
+    "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "pg-promise": "^8.5.5"
   },
   "devDependencies": {
     "concurrently": "^4.0.1"

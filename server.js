@@ -17,7 +17,6 @@ app.post('/api/world', (req, res) => {
   );
 });
 
-
 app.post('/api/login', (req, res) => {
   console.log(req.body);
   if (req.body.email == 'pass' && req.body.password == 'pass') {
@@ -33,9 +32,48 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-
 app.get('/api/users', (req, res) => {
-  console.log(db.getAllUsers(req, res));
+  db.getAllUsers(req, res);
+});
+
+app.get('/api/allProperties', (req, res) => {
+  db.getAllProperties(req, res);
+});
+
+app.get('/api/property/:id', (req, res) => {
+  db.getProperty(req, res);
+});
+
+app.put('/api/addProperty', (req, res) => {
+  db.addProperty(req, res);
+});
+
+app.put('/api/updateProperty', (req, res) => {
+  db.updateProperty(req, res);
+});
+
+app.put('/api/addUser/:email/:userPassword/:firstName/:lastName/:phoneNumber/:userTypeID', (req, res) => {
+  db.addUser(req, res);
+});
+
+app.delete('/api/deleteUser/:id', (req, res) => {
+  db.deleteUser(req, res);
+});
+
+app.put('/api/updateUser', (req, res) => {
+  db.updateUser(req, res);
+});
+
+app.put('/api/buyProperty', (req, res) => {
+  db.buyProperty(req, res);
+});
+
+app.put('/api/cancelPurchase', (req, res) => {
+  db.cancelPurchase(req, res);
+});
+
+app.delete('/api/deleteProperty', (req, res) => {
+  db.deleteProperty(req, res);
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));     

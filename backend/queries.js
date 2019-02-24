@@ -18,6 +18,58 @@ function getAllUsers(req, res, next) {
           });
 }
 
+
+function authenticateUser(req, res, next) {
+  // Authenticate user
+  db.query('SELECT * FROM user_data WHERE email =  ${email} AND password = ${password}', {
+          email: req.body.email,
+          password: req.body.password
+      })
+      .then(function(data) {
+          // Login failed
+          if (JSON.stringify(data) == '[]') {
+              res.status(404).json({
+                  error: 'Incorrect username or password'
+              });
+          }
+
+          // Sucessful login
+          res.status(200)
+              .json({
+                  data
+              });
+      }).catch(function(err) {
+          // Handle errors
+      });
+}
+
+
+function createUser(req, res, next) {
+  db.any('INSERT INTO user_data VALUES (${email}, ${password}, ${firstname}, ${lastname})', {
+          email: req.body.email,
+          password: req.body.password,
+          firstname: req.body.firstname,
+          lastname: req.body.lastname
+      })
+      .then(data => {
+          res.status(200)
+              .json({
+                  data
+              });
+      })
+      .catch(error => {
+          console.log(error)
+          res.status(400)
+              .json({
+                  error: error.detail
+              });
+      });
+}
+ 
+
+
 module.exports = {
-    getAllUsers: getAllUsers
+    getAllUsers: getAllUsers,
+    authenticateUser: authenticateUser,
+    createUser: createUser
 }

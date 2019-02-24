@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import * as ReactBootstrap from 'react-bootstrap';
 import "./modal.css";
 
 class Modal extends Component {
+
 
   componentDidMount() {
     this.modalTarget = document.createElement("div");
@@ -20,13 +22,14 @@ class Modal extends Component {
     document.body.removeChild(this.modalTarget);
   }
 
+
   _render() {
+
     ReactDOM.render(
       <div>
         <div>
           {this.props.children}
-          <hr />
-          <button onClick={this.props.onClose}>Close</button>
+          <br/><br/>
         </div>
       </div>,
       this.modalTarget

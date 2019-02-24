@@ -24,7 +24,6 @@ class Modal extends Component {
 
 
   _render() {
-
     ReactDOM.render(
       <div>
         <div>

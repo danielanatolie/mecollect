@@ -194,7 +194,6 @@ class App extends Component {
              </ReactBootstrap.InputGroup>
         </ReactBootstrap.Form.Row>
         <br/>
-
         <ReactBootstrap.Form.Row>
           <ReactBootstrap.Form.Label>Password</ReactBootstrap.Form.Label>
           <ReactBootstrap.InputGroup>

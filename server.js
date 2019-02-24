@@ -19,7 +19,7 @@ app.post('/api/world', (req, res) => {
 
 
 app.post('/api/login', (req, res) => {
-  // Authenticate existing user
+  // Authenticate (existing) user
   if(req.body.signUp == false) {
     db.authenticateUser(req,res,null);
   } else {

@@ -18,6 +18,19 @@ function getAllUsers(req, res, next) {
           });
 }
 
+function getAllProperties(req, res, next) {
+  db.any('SELECT * FROM property')
+    .then(function(data) {
+      res.status(200)
+         .json({
+           data
+         })
+    }).catch(function(err){
+      console.log("An error occured while calling getAllProperties ", err);
+    });
+}
+
 module.exports = {
-    getAllUsers: getAllUsers
+    getAllUsers: getAllUsers,
+    getAllProperties: getAllProperties
 }

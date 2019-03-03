@@ -23,6 +23,34 @@
   color: #61dafb;
 }
 
+.Header {
+  position: sticky;
+  top: 0;
+}
+
+.Header ul {
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+  background-color: #7F7F7F;
+}
+
+.Header li {
+  float: left;
+}
+
+.Header li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.Header li:hover {
+  background: #4C4C4C;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

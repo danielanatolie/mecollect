@@ -23,9 +23,6 @@ class App extends Component {
   
 
   componentDidMount() {
-    // this.callApi()
-    //   .then(res => this.setState({ response: res.express }))
-    //   .catch(err => console.log(err));
     this.getProperties()
       .then(data => this.setState({ properties: data}))
       .catch(err => console.log(err));

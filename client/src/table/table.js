@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 class Table extends Component {
+
+    handleBuy() {
+
+    }
+
+    handleDetails() {
+
+    }
+
     render() {
         console.log(this.props.properties)
         const columns = [
@@ -33,7 +43,16 @@ class Table extends Component {
             {
                 Header: "Total Baths",
                 accessor: "totalbaths"
-            }
+            },
+            {
+                Header: '',
+                Cell: row => (
+                    <div>
+                        <button onClick={() => this.handleBuy(row.original)}>Buy</button>
+                        <button onClick={() => this.handleDetails(row.original)}>Details</button> 
+                    </div>
+                )
+             }
         ]
         if (this.props.properties) {
             return (

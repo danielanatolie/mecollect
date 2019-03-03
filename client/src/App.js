@@ -84,19 +84,6 @@ class App extends Component {
     return (
       <div className="App">
         <p>{this.state.response}</p>
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <strong>Post to Server:</strong>
-          </p>
-          <input
-            type="text"
-            value={this.state.post}
-            onChange={e => this.setState({ post: e.target.value })}
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <p>{this.state.responseToPost}</p>
-        <Table properties={this.state.properties}></Table>
         <div>
           <button 
             type='button'
@@ -141,6 +128,7 @@ class App extends Component {
             </Modal>
           ) : null}
         </div>
+        <Table properties={this.state.properties}></Table>
 
 
       </div>

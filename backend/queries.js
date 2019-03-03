@@ -54,7 +54,7 @@ function createUser(req, res, next) {
       .then(data => {
           res.status(200)
               .json({
-                  data
+                  message: "New account created"
               });
       })
       .catch(error => {

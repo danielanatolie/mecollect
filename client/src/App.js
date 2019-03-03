@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as ReactBootstrap from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -209,6 +210,7 @@ class App extends Component {
             />
           </ReactBootstrap.InputGroup>
         </ReactBootstrap.Form.Row>
+        <br />
         <ReactBootstrap.Button 
         variant="primary" 
         type="submit"

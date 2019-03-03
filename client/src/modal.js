@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import * as ReactBootstrap from 'react-bootstrap';
 import "./modal.css";
 
 class Modal extends Component {

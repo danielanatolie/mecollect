@@ -7,7 +7,7 @@ var connectionString = 'postgres://localhost:5432/myproperty';
 var db = pgp(connectionString);
 
 function getAllUsers(req, res, next) {
-    db.any('select * from user_data')
+    db.any('select * from account')
           .then(function (data) {
             res.status(200)
                .json({
@@ -21,7 +21,7 @@ function getAllUsers(req, res, next) {
 
 function authenticateUser(req, res, next) {
   // Authenticate user
-  db.query('SELECT * FROM user_data WHERE email =  ${email} AND password = ${password}', {
+  db.query('SELECT * FROM account WHERE email =  ${email} AND accountPassword = ${password}', {
           email: req.body.email,
           password: req.body.password
       })
@@ -45,7 +45,7 @@ function authenticateUser(req, res, next) {
 
 
 function createUser(req, res, next) {
-  db.any('INSERT INTO user_data VALUES (${email}, ${password}, ${firstname}, ${lastname})', {
+  db.any('INSERT INTO account VALUES (${email}, ${password}, ${firstname}, ${lastname})', {
           email: req.body.email,
           password: req.body.password,
           firstname: req.body.firstname,

@@ -3,145 +3,89 @@ CREATE DATABASE myproperty;
 
 \c myproperty;
 
-CREATE TABLE UserTypes (
-    userTypeID int PRIMARY KEY,
-    userType VARCHAR
+CREATE TABLE property (
+	propertyNumber int,
+	originalPrice float,
+	propertyAddress VARCHAR,	
+	yearBuilt int,
+	propertyType VARCHAR,
+	totalBeds int,
+	totalBaths int,
+	PRIMARY KEY (propertyNumber)
 );
 
-INSERT INTO UserTypes (userTypeID, userType) VALUES
-(1, 'Admin'),
-(2, 'Buyer'),
-(3, 'Seller'),
-(4, 'Agent');
+INSERT INTO property (propertyNumber, originalPrice, propertyAddress, yearbuilt, propertyType, totalBeds, totalBaths) VALUES 
+(12381, 1000000.0, '1 test a5te California', 2018, 'mansion', 10, 3),
+(12382, 2000000.0, '1 test a5te2 New York', 2018, 'mansion', 10, 5),
+(12383, 1000000.0, '1 test a5te3 Vancouver', 2018, 'mansion', 10, 2),
+(12384, 3000000.0, '1 test a5te4 Toronto', 2018, 'mansion', 10, 1),
+(12385, 5000000.0, '1 test a5te5 Los Angeles', 2018, 'mansion', 10, 7);
 
-CREATE TABLE UserData (
-    userID SERIAL PRIMARY KEY,
-    email VARCHAR,
-    userPassword VARCHAR,
-    firstName VARCHAR,
-    lastName VARCHAR,
-    phoneNumber float,
-    userTypeID int,
-    deleted boolean DEFAULT false,
-    FOREIGN KEY (userTypeID) REFERENCES UserTypes (userTypeID)
+CREATE TABLE account (
+	email VARCHAR,
+	permissions VARCHAR,
+	accountName VARCHAR,
+	accountPassword VARCHAR,	
+	phone VARCHAR,
+	rating int,
+	PRIMARY KEY (email)
 );
 
-INSERT INTO UserData (email, userPassword, firstName, lastName, phoneNumber, userTypeID) VALUES 
-('alex.ford123@gmail.com', 'password', 'Alex', 'Ford', 2505555556, 1),
-('daniel.anatolie@gmail.com', 'password', 'Daniel', 'Anatolie', 2505555556, 1),
-('agent1@agent.com', 'agent123', 'John', 'Doe', 2501231234, 4),
-('buyer1@buyer.com', 'buyer123', 'Jane', 'Doe', 2501231235, 2),
-('seller1@seller.com', 'seller123', 'Josh', 'Doe', 2501231236, 3);
+INSERT INTO account (email, permissions, accountName, accountPassword, phone, rating) VALUES 
+('test1@gmail.com', 'agent', 'John Smith', 'password123', '1', 5),
+('test2@gmail.com', 'seller', 'Susanne', '12345', '2', 3),
+('test3@gmail.com', 'buyer', 'Test User', 'password123', '3', 5),
+('test4@gmail.com', 'agent', 'Test User2', 'password123', '4', 2),
+('test5@gmail.com', 'buyer', 'Test User3', 'password123', '5', 1);
 
-CREATE TABLE Agents (
-    agentID int PRIMARY KEY,
-    rating int,
-    FOREIGN KEY (agentID) REFERENCES UserData (userID)
-); 
 
-INSERT INTO Agents (agentID, rating) VALUES
-(3, 8);
-
-CREATE TABLE PropertyTypes (
-    propertyTypeID int PRIMARY KEY,
-    propertyType VARCHAR
+CREATE TABLE orders (
+	orderNumber int,
+	date VARCHAR,	
+	email VARCHAR,
+	listedPrice float,
+	propertyNumber int,
+	PRIMARY KEY (orderNumber),
+	FOREIGN KEY (email) REFERENCES account(email) ON DELETE CASCADE,
+    FOREIGN KEY (propertyNumber) REFERENCES  property(propertyNumber) ON DELETE CASCADE
 );
 
-INSERT INTO PropertyTypes (propertyTypeID, propertyType) VALUES
-(1, 'Land'),
-(2, 'Commercial'),
-(3, 'Residential');
+INSERT INTO orders (orderNumber, date, email, listedprice, propertyNumber) VALUES
+(102, 'Mon. Feb. 25, 2019', 'test1@gmail.com', 1000000, 12381), 
+(105, 'Mon. Feb. 25, 2019', 'test2@gmail.com', 2000000, 12382),
+(12, 'Mon. Feb. 25, 2019', 'test3@gmail.com', 500000, 12383),
+(32, 'Mon. Feb. 25, 2019', 'test4@gmail.com', 5000000, 12384),
+(421, 'Mon. Feb. 25, 2019', 'test5@gmail.com', 1000000, 12385);
 
-CREATE TABLE Locations (
-    locationID int PRIMARY KEY,
-    city VARCHAR,
-    province VARCHAR,
-    country VARCHAR
+CREATE TABLE payments (
+	paymentNumber int,
+	orderNumber int,
+	method VARCHAR,
+	amount float,
+    PRIMARY KEY (paymentNumber, orderNumber),
+    FOREIGN KEY (orderNumber) REFERENCES orders (orderNumber) ON DELETE CASCADE
 );
 
-INSERT INTO Locations (locationID, city, province, country) VALUES
-(1, 'Vancouver', 'BC', 'Canada'),
-(2, 'Toronto', 'ON', 'Canada'),
-(3, 'Calgary', 'AB', 'Canada');
+INSERT INTO payments (paymentNumber, orderNumber, method, amount) VALUES
+(1, 102, 'Visa', 100000),
+(2, 105, 'Mastercard', 150000),
+(3, 12, 'Visa', 55000),
+(4, 32, 'Visa', 45000),
+(5, 421, 'Bitcoin', 3.53);
 
-CREATE TABLE PropertyLocationInfo (
-    propertyID int PRIMARY KEY,
-    houseNumber int,
-    postalCode VARCHAR,
-    locationID int,
-    FOREIGN KEY (locationID) REFERENCES Locations (locationID) 
-);
+-- The table below seems to redundant, we'll consider removing it entirely
+-- CREATE TABLE paymentOrder (
+-- 	paymentNumber int,
+-- 	orderNumber int,
+-- 	PRIMARY KEY (paymentNumber, orderNumber),
+--     FOREIGN KEY (paymentNumber) REFERENCES payments(paymentNumber) ON DELETE CASCADE,
+-- 	FOREIGN KEY (orderNumber) REFERENCES orders(orderNumber) ON DELETE CASCADE
+-- );
 
-INSERT INTO PropertyLocationInfo (propertyID, houseNumber, postalCode, locationID) VALUES
-(1, 1234, 'VX1VN5', 1);
+-- INSERT INTO paymentOrder (paymentNumber, orderNumber) VALUES 
+-- (2, 102),
+-- (1, 105),
+-- (3, 12),
+-- (4, 32),
+-- (5, 421);
 
-CREATE TABLE Properties (
-    propertyID SERIAL PRIMARY KEY,
-    originalPrice float,
-    size int,
-    yearBuilt int,
-    propertyTypeID int,
-    typeIDIndex int,
-    FOREIGN KEY (propertyTypeID) REFERENCES PropertyTypes (propertyTypeID), 
-    FOREIGN KEY (propertyID) REFERENCES PropertyLocationInfo (propertyID)
-);
-
-INSERT INTO Properties (originalPrice, size, yearBuilt, propertyTypeID, typeIDIndex) VALUES
-(950000, 3000, 2007, 3, 1);
-
-CREATE TABLE Land (
-    landID int PRIMARY KEY,
-    landType VARCHAR
-);
- 
-CREATE TABLE Commercial (
-    companyID int PRIMARY KEY,
-    company VARCHAR
-);
-
-INSERT INTO Commercial (companyID, company) VALUES
-(1, 'Subway');
-
-CREATE TABLE Residential (
-    resTypeID int PRIMARY KEY,
-    numBeds int,
-    numBaths int
-);
-
-INSERT INTO Residential (resTypeID, numBeds, numBaths) VALUES
-(1, 4, 4);
-
-
-CREATE TABLE PaymentInfo (
-    paymentNumber int PRIMARY KEY,
-    methodType int,
-    amount float
-);
-
-INSERT INTO PaymentInfo (paymentNumber, methodType, amount) VALUES
-(1, 1, 1000000);
-
-CREATE TABLE BuyingAgreements (
-    orderNumber SERIAL PRIMARY KEY,
-    userID int,
-    signDate date,
-    listedPrice float,
-    propertyID int,
-    paymentNumber int,
-    FOREIGN KEY (propertyID) REFERENCES Properties (propertyID),
-    FOREIGN KEY (userID) REFERENCES UserData (userID),
-    FOREIGN KEY (paymentNumber) REFERENCES PaymentInfo (paymentNumber)  
-);
-
-INSERT INTO BuyingAgreements (orderNumber, userID, signDate, listedPrice, propertyID) VALUES
-(1, 4, '2019-12-28', 1000000, 1);
-
-CREATE TABLE PaymentMethod (
-    paymentMethodID int PRIMARY KEY,
-    paymentMethod VARCHAR
-);
-
-INSERT INTO PaymentMethod (paymentMethodID, paymentMethod) VALUES
-(1, 'Visa'),
-(2, 'MasterCard'),
-(3, 'PayPal');

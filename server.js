@@ -60,8 +60,20 @@ app.delete('/api/deleteUser/:id', (req, res) => {
   db.deleteUser(req, res);
 });
 
-app.put('/api/updateUser', (req, res) => {
-  db.updateUser(req, res);
+app.post('/api/getUserInfo/:email', (req, res) => {
+  db.getUserData(req, res);
+});
+
+app.post('/api/updateUserName/:newUserName/:email', (req, res) => {
+  db.updateUserName(req, res);
+});
+
+app.post('/api/updateUserPassword/:newPassword/:email', (req, res) => {
+  db.updateUserPassword(req, res);
+});
+
+app.post('/api/getUserOrders/:email' , (req, res) => {
+  db.getUserOrders(req, res);
 });
 
 app.put('/api/buyProperty', (req, res) => {

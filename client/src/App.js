@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import logo from './logo.svg';
 import './App.css';
 
 import Modal from './modal.js';
+import UserAccount from './UserAccount';
+
+export var userEmail = 'test1@gmail.com';
 
 class App extends Component {
   state = {
@@ -59,6 +63,8 @@ class App extends Component {
     });
     const body = await response.text();
     this.setState({responseToPost:body});
+    userEmail = this.state.email;
+    ReactDOM.render(< UserAccount userEmail={this.state.email} />, document.getElementById('root'));
   };
 
   render() {
@@ -136,8 +142,6 @@ class App extends Component {
             </Modal>
           ) : null}
         </div>
-
-
       </div>
     );
   }

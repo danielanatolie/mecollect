@@ -5,23 +5,30 @@ import './App.css';
 
 import Modal from './modal.js';
 import UserAccount from './UserAccount';
+import Table from './table/table.js'
+import { async } from 'rxjs/internal/scheduler/async';
 
 export var userEmail = 'test1@gmail.com';
 
 class App extends Component {
-  state = {
-    response: '',
-    post: '',
-    responseToPost: '',
+  constructor(props) {
+    super(props);
+    this.state = {
+      response: '',
+      post: '',
+      responseToPost: '',
 
-    showModal: false,
-    email: "",
-    password: ""
-  };
+      showModal: false,
+      email: "",
+      password: "",
+      properties: null
+    };
+  }
+  
 
   componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
+    this.getProperties()
+      .then(data => this.setState({ properties: data}))
       .catch(err => console.log(err));
   }
 
@@ -31,6 +38,15 @@ class App extends Component {
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
+
+  getProperties = async () => {
+    const response = await fetch('/api/properties', {
+      method: "GET"
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body.data;
+  }
 
   handleSubmit = async e => {
     e.preventDefault();
@@ -70,34 +86,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
         <p>{this.state.response}</p>
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <strong>Post to Server:</strong>
-          </p>
-          <input
-            type="text"
-            value={this.state.post}
-            onChange={e => this.setState({ post: e.target.value })}
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <p>{this.state.responseToPost}</p>
-
         <div>
           <button 
             type='button'
@@ -142,6 +131,9 @@ class App extends Component {
             </Modal>
           ) : null}
         </div>
+        <Table properties={this.state.properties}></Table>
+
+
       </div>
     );
   }

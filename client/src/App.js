@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Modal from './modal.js';
-import UserAccount from './UserAccount';
+import UserAccount from './Account';
 import Table from './table/table.js'
 import { async } from 'rxjs/internal/scheduler/async';
 

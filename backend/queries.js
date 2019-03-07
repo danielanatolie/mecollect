@@ -3,7 +3,7 @@ var options = {
   promiseLib: promise
 };
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://postgres:Drofnagrom123!@localhost:5432/myproperty';
+var connectionString = 'postgres://USERNAME:PASSWORD@localhost:5432/myproperty';
 var db = pgp(connectionString);
 
 function getAllUsers(req, res, next) {

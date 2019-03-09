@@ -8,6 +8,7 @@ import './App.css';
 import Modal from './modal.js';
 import Table from './table/table.js'
 import { async } from 'rxjs/internal/scheduler/async';
+import { Redirect, Route } from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {
@@ -21,49 +22,16 @@ class App extends Component {
       email: "",
       password: "",
       firstname: "",
-      lastname: ""
-      properties: null
+      lastname: "",
+      properties: null,
+      loginSuccess: false
     };
-
-
-  componentDidMount() {
-    this.getProperties()
-      .then(data => this.setState({ properties: data}))
-      .catch(err => console.log(err));
   }
-
-  callApi = async () => {
-    const response = await fetch('/api/hello');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  };
-
-  getProperties = async () => {
-    const response = await fetch('/api/properties', {
-      method: "GET"
-    });
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body.data;
-  }
-
-  handleSubmit = async e => {
-    e.preventDefault();
-    const response = await fetch('/api/world', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ post: this.state.post }),
-    });
-    const body = await response.text();
-    this.setState({ responseToPost: body });
-  };
 
   hideLoginModal = async e => {
     this.setState({
-      showModal: false
+      showModal: false,
+      loginSuccess: true
     });
   }
   
@@ -111,6 +79,13 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state.properties);
+    if (this.state.loginSuccess === true) {
+      return <Redirect to={{
+            pathname: '/home'
+        }}    
+      />
+    }
     return (
       <div className="App">
         <p>{this.state.response}</p>
@@ -129,7 +104,6 @@ class App extends Component {
       <br />
       <br />
     </div>
-     <Table properties={this.state.properties}></Table>
   </div>
     );
   }

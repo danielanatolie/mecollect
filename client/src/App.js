@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import * as ReactBootstrap from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import logo from './logo.svg';
 import './App.css';
 
 import Modal from './modal.js';
-import Table from './table/table.js';
-import { async } from 'rxjs/internal/scheduler/async';
+import { Redirect, Route } from 'react-router-dom';
 
 export var userEmail = '';
 
@@ -25,7 +22,8 @@ class App extends Component {
       password: "",
       firstname: "",
       lastname: "",
-      properties: null
+      properties: null,
+      loginSuccess: false
     }
   };
 
@@ -51,22 +49,10 @@ class App extends Component {
     return body.data;
   }
 
-  handleSubmit = async e => {
-    e.preventDefault();
-    const response = await fetch('/api/world', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ post: this.state.post }),
-    });
-    const body = await response.text();
-    this.setState({ responseToPost: body });
-  };
-
   hideLoginModal = async e => {
     this.setState({
-      showModal: false
+      showModal: false,
+      loginSuccess: true
     });
   }
   
@@ -111,11 +97,17 @@ class App extends Component {
     const body = await response.text();
     this.setState({responseToPost:body});
     userEmail = this.state.email;
-    //ReactDOM.render(< UserAccount userEmail={this.state.email} />, document.getElementById('root'));
     this.setState({showModal:false});
   };
 
   render() {
+    console.log(this.state.properties);
+    if (this.state.loginSuccess === true) {
+      return <Redirect to={{
+            pathname: '/home'
+        }}    
+      />
+    }
     return (
       <div className="App">
         <p>{this.state.response}</p>
@@ -134,7 +126,6 @@ class App extends Component {
       <br />
       <br />
     </div>
-     <Table properties={this.state.properties}></Table>
   </div>
     );
   }

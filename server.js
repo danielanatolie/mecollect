@@ -18,17 +18,12 @@ app.post('/api/world', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-  console.log(req.body);
-  if (req.body.email == 'pass' && req.body.password == 'pass') {
-      console.log("Successful login");
-      res.send(
-          `Sucessful login`,
-      );
+  // Authenticate (existing) user
+  if(req.body.signUp == false) {
+    db.authenticateUser(req,res,null);
   } else {
-      console.log("Login failed");
-      res.send(
-          `Login failed`,
-      );
+    // Create new user
+    db.createUser(req,res,null);
   }
 });
 

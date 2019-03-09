@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import * as ReactBootstrap from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import logo from './logo.svg';
 import './App.css';
 
 import Modal from './modal.js';
-import Table from './table/table.js'
-import { async } from 'rxjs/internal/scheduler/async';
 import { Redirect, Route } from 'react-router-dom';
+
+export var userEmail = '';
 
 class App extends Component {
   constructor(props) {
@@ -25,7 +24,29 @@ class App extends Component {
       lastname: "",
       properties: null,
       loginSuccess: false
-    };
+    }
+  };
+
+  componentDidMount() {
+    this.getProperties()
+      .then(data => this.setState({ properties: data}))
+      .catch(err => console.log(err));
+  }
+
+  callApi = async () => {
+    const response = await fetch('/api/hello');
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  };
+
+  getProperties = async () => {
+    const response = await fetch('/api/properties', {
+      method: "GET"
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body.data;
   }
 
   hideLoginModal = async e => {
@@ -75,6 +96,7 @@ class App extends Component {
     });
     const body = await response.text();
     this.setState({responseToPost:body});
+    userEmail = this.state.email;
     this.setState({showModal:false});
   };
 

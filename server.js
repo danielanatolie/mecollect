@@ -17,7 +17,6 @@ app.post('/api/world', (req, res) => {
   );
 });
 
-
 app.post('/api/login', (req, res) => {
   // Authenticate (existing) user
   if(req.body.signUp == false) {
@@ -28,9 +27,56 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-
 app.get('/api/users', (req, res) => {
-  console.log(db.getAllUsers(req, res));
+  db.getAllUsers(req, res);
+});
+
+app.get('/api/allProperties', (req, res) => {
+  db.getAllProperties(req, res);
+});
+
+app.get('/api/property/:id', (req, res) => {
+  db.getProperty(req, res);
+});
+
+app.put('/api/addProperty', (req, res) => {
+  db.addProperty(req, res);
+});
+
+app.put('/api/updateProperty', (req, res) => {
+  db.updateProperty(req, res);
+});
+
+app.delete('/api/deleteUser', (req, res) => {
+  db.deleteUser(req, res);
+});
+
+app.post('/api/getUserInfo', (req, res) => {
+  db.getUserData(req, res);
+});
+
+app.post('/api/updateUserName', (req, res) => {
+  db.updateUserName(req, res);
+});
+
+app.post('/api/updateUserPassword', (req, res) => {
+  db.updateUserPassword(req, res);
+});
+
+app.post('/api/getUserOrders' , (req, res) => {
+  db.getUserOrders(req, res);
+});
+
+app.put('/api/buyProperty', (req, res) => {
+  db.buyProperty(req, res);
+});
+
+app.put('/api/cancelPurchase', (req, res) => {
+  db.cancelPurchase(req, res);
+});
+
+app.delete('/api/deleteProperty', (req, res) => {
+  db.deleteProperty(req, res);
 });
 
 app.get('/api/properties', db.getAllProperties);

@@ -75,14 +75,12 @@ function getAllProperties(req, res, next) {
     }).catch(function(err){
       console.log("An error occured while calling getAllProperties ", err);
     });
+  }
  
 
 module.exports = {
     getAllUsers: getAllUsers,
     authenticateUser: authenticateUser,
-    createUser: createUser
+    createUser: createUser,
     getAllProperties: getAllProperties
-}
-
-
-
+};

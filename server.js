@@ -33,5 +33,7 @@ app.get('/api/users', (req, res) => {
   console.log(db.getAllUsers(req, res));
 });
 
+app.get('/api/properties', db.getAllProperties);
+
 app.listen(port, () => console.log(`Listening on port ${port}`));     
 

@@ -72,19 +72,3 @@ INSERT INTO payments (paymentNumber, orderNumber, method, amount) VALUES
 (3, 12, 'Visa', 55000),
 (4, 32, 'Visa', 45000),
 (5, 421, 'Bitcoin', 3.53);
-
--- The table below seems to redundant, we'll consider removing it entirely
--- CREATE TABLE paymentOrder (
--- 	paymentNumber int,
--- 	orderNumber int,
--- 	PRIMARY KEY (paymentNumber, orderNumber),
---     FOREIGN KEY (paymentNumber) REFERENCES payments(paymentNumber) ON DELETE CASCADE,
--- 	FOREIGN KEY (orderNumber) REFERENCES orders(orderNumber) ON DELETE CASCADE
--- );
-
--- INSERT INTO paymentOrder (paymentNumber, orderNumber) VALUES 
--- (2, 102),
--- (1, 105),
--- (3, 12),
--- (4, 32),
--- (5, 421);

@@ -7,7 +7,6 @@ import logo from './logo.svg';
 import './App.css';
 
 import Modal from './modal.js';
-import UserAccount from './Account';
 import Table from './table/table.js';
 import { async } from 'rxjs/internal/scheduler/async';
 
@@ -112,7 +111,7 @@ class App extends Component {
     const body = await response.text();
     this.setState({responseToPost:body});
     userEmail = this.state.email;
-    ReactDOM.render(< UserAccount userEmail={this.state.email} />, document.getElementById('root'));
+    //ReactDOM.render(< UserAccount userEmail={this.state.email} />, document.getElementById('root'));
     this.setState({showModal:false});
   };
 

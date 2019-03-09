@@ -47,27 +47,23 @@ app.put('/api/updateProperty', (req, res) => {
   db.updateProperty(req, res);
 });
 
-app.put('/api/addUser/:email/:userPassword/:firstName/:lastName/:phoneNumber/:userTypeID', (req, res) => {
-  db.addUser(req, res);
-});
-
-app.delete('/api/deleteUser/:id', (req, res) => {
+app.delete('/api/deleteUser', (req, res) => {
   db.deleteUser(req, res);
 });
 
-app.post('/api/getUserInfo/:email', (req, res) => {
+app.post('/api/getUserInfo', (req, res) => {
   db.getUserData(req, res);
 });
 
-app.post('/api/updateUserName/:newUserName/:email', (req, res) => {
+app.post('/api/updateUserName', (req, res) => {
   db.updateUserName(req, res);
 });
 
-app.post('/api/updateUserPassword/:newPassword/:email', (req, res) => {
+app.post('/api/updateUserPassword', (req, res) => {
   db.updateUserPassword(req, res);
 });
 
-app.post('/api/getUserOrders/:email' , (req, res) => {
+app.post('/api/getUserOrders' , (req, res) => {
   db.getUserOrders(req, res);
 });
 

@@ -71,28 +71,6 @@ function updateProperty(req, res, next) {
         });
 }
 
-function addUser(req, res, next) {
-  var params = req.params;
-  var sql = 'INSERT INTO UserData (email, userPassword, firstName, lastName, phoneNumber, userTypeID) VALUES \
-            (' + 
-            '\'' + params.email + '\',' +
-            '\'' + params.userPassword + '\','  +
-            '\'' + params.firstName + '\','  +
-            '\'' + params.lastName + '\','  
-            + params.phoneNumber + ','  
-            + params.userTypeID +    
-            ')';
-  db.any(sql)
-        .then(function (data) {
-          res.status(200)
-              .json({
-                user: data
-              });
-        }).catch(function (err) {
-          return next(err);
-        });
-}
-
 function deleteUser(req, res, next) {
   var params = req.params;
   var sql = 'UPDATE UserData SET deleted = 1 WHERE userID = ' + params.id;  
@@ -122,64 +100,60 @@ function deleteProperty(req, res, next) {
 
 function getUserData(req, res, next)
 {
-  var params = req.params; 
-  var sql = 'SELECT permissions, accountname, accountpassword, phone, rating from account where email = '
-  + '\'' + params.email + '\'';
-  db.any(sql)
-        .then(function (data) {
-          res.status(200)
-              .json({
-                userInfo: data
-              });
-        }).catch(function (err) {
-          return next(err);
-        });
+  db.any('SELECT permissions, accountname, accountpassword, phone, rating from account where email = ${email}', {
+    email: req.body.email  
+  }).then(function (data) {
+        res.status(200)
+            .json({
+              userInfo: data
+            });
+      }).catch(function (err) {
+        return next(err);
+      });
 }
 
 function getUserOrders(req, res, next) {
-  var params = req.params; 
-  var sql = 'SELECT orders.orderNumber, orders.date, orders.listedPrice, \
-  orders.propertyNumber, payments.method, payments.amount \
-  FROM orders \
-  INNER JOIN payments on payments.orderNumber = orders.orderNumber WHERE email = ' + '\'' + params.email + '\'';
-
-  db.any(sql)
-        .then(function (data) {
-          res.status(200)
-              .json({
-                orders: data
-              });
-        }).catch(function (err) {
-          return next(err);
-        });
+  db.any('SELECT orders.orderNumber, orders.date, orders.listedPrice, \
+          orders.propertyNumber, payments.method, payments.amount \
+          FROM orders \
+          INNER JOIN payments on payments.orderNumber = orders.orderNumber WHERE email = ${email}', {
+    email: req.body.email
+  }).then(function (data) {
+        res.status(200)
+            .json({
+              data
+            });
+      }).catch(function (err) {
+        return next(err);
+      });
 } 
 
 function updateUserName(req, res, next) {
-  var params = req.params;
-  var sql = 'UPDATE account SET accountName = ' + '\'' + params.newUserName + '\'' + ' WHERE email = ' + '\'' + params.email + '\'';
-  db.any(sql)
-        .then(function (data) {
-          res.status(200)
-              .json({
-                status: 'Successfully changed user name.'
-              });
-        }).catch(function (err) {
-          return next(err);
-        });
+  db.any('UPDATE account SET accountName = ${newUserName} WHERE email = ${email}', {
+    newUserName: req.body.newUserName,
+    email: req.body.email
+  }).then(function (data) {
+        res.status(200)
+            .json({
+              status: 'Successfully changed user name.'
+            });
+      }).catch(function (err) {
+        return next(err);
+      });
 }
 
 function updateUserPassword(req, res, next) {
-  var params = req.params;
-  var sql = 'UPDATE account SET accountpassword = ' + '\'' + params.newPassword + '\'' + ' WHERE email = ' + '\'' + params.email + '\'' ;
-  db.any(sql)
-        .then(function (data) {
-          res.status(200)
-              .json({
-                status: 'Success'
-              });
-        }).catch(function (err) {
-          return next(err);
-        });
+  db.any('UPDATE account SET accountpassword = ${newPassword} WHERE email = ${email}', {
+    newPassword: req.body.newPassword,
+    email: req.body.email
+  }).then(function (data) {
+        res.status(200)
+            .json({
+              status: 'Successfully changed password.'
+            });
+      }).catch(function (err) {
+        return next(err);
+      });
 }
 
 function buyProperty(req, res, next) {
@@ -285,7 +259,6 @@ module.exports = {
     getProperty: getProperty,
     addProperty: addProperty,
     updateProperty: updateProperty,
-    addUser: addUser,
     deleteUser: deleteUser,
     updateUserName: updateUserName,
     updateUserPassword: updateUserPassword,
@@ -297,4 +270,4 @@ module.exports = {
     authenticateUser: authenticateUser,
     createUser: createUser,
     getAllProperties: getAllProperties
-};
+}

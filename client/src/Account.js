@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Header from './Header';
+import AccountTable from './table/accountTable';
+import { Button } from 'react-bootstrap';
 import './UserAccount.css';
-import {userEmail} from './App.js';
+import {userEmail} from './App';
 
 class UserAccount extends Component { 
     state = {
@@ -11,11 +13,10 @@ class UserAccount extends Component {
         userAccountName: '',
         userPermissions: '',
         userPhoneNumber: '',
-        numOrders: 0,
-        orders: [],
+        orders: null,
         email: userEmail,
-        nameStatus: 'Fail',
-        passwordStatus: 'Fail',
+        nameStatus: '',
+        passwordStatus: '',
         newUserName: '',
         newUserPassword: ''
       };
@@ -33,12 +34,12 @@ class UserAccount extends Component {
       };
     
     getAccountDetails = async () => {
-        const response = await fetch('/api/getUserInfo/' + this.state.email, {
+        const response = await fetch('/api/getUserInfo', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ post: this.state.post }),
+          body: JSON.stringify({ email: this.state.email }),
         });
         const body = await response.text();
         var info = (JSON.parse(body)).userInfo[0];
@@ -49,83 +50,61 @@ class UserAccount extends Component {
       };
 
       getOrderDetails = async () => {
-        const response = await fetch('/api/getUserOrders/' + this.state.email, {
+        const response = await fetch('/api/getUserOrders', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ post: this.state.post }),
+          body: JSON.stringify({ email: this.state.email }),
         });
         const body = await response.text();
-        var info = JSON.parse(body);
-        this.setState({ orders: info.orders, numOrders: 1 });
+        this.setState({ orders: JSON.parse(body).data });
       };
 
       updatePassword = async () => {
         if (this.state.newUserPassword != '') {
-            const response = await fetch('/api/updateUserPassword/' + this.state.newUserPassword + '/' + this.state.email, {
+            const response = await fetch('/api/updateUserPassword', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ post: this.state.post }),
+                body: JSON.stringify({ 
+                  email: this.state.email,
+                  newPassword: this.state.newUserPassword
+                }),
             });
             const body = await response.text();
-            this.setState({ passwordStatus: 'Success' });
+            this.setState({ passwordStatus: JSON.parse(body).status });
         }
       }
 
       updateUserName = async e => {
         if (this.state.newUserName != '') {  
             e.preventDefault();
-            const response = await fetch('/api/updateUserName/' + this.state.newUserName + '/' + this.state.email, {
+            const response = await fetch('/api/updateUserName', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ post: this.state.post }),
+                body: JSON.stringify({ 
+                  email: this.state.email,
+                  newUserName: this.state.newUserName
+                }),
             });
             const body = await response.text();
-            this.setState({ nameStatus: 'Success' });
+            this.setState({ nameStatus: JSON.parse(body).status, userAccountName: this.state.newUserName });
         }
       }
     
     render() {
-        var rows = [];
-        for (var i = 0; i < this.state.numOrders; i++) {
-            var order = this.state.orders[i];
-            rows.push(
-            <tr>
-                <td>{order.ordernumber}</td>
-                <td>{order.date}</td>
-                <td>{order.listedprice}</td>
-                <td>{order.propertyNumber}</td>
-                <td>{order.method}</td>
-                <td>{order.amount}</td>
-            </tr>);
-        }
-        return (
+        return (   
             <div>
+              <Header/>
                 <div>
                     <div>USER ACCOUNT: {this.state.email}</div>
                     <div>Account Permissions: {this.state.userPermissions}</div>
                     <div>Account Name: {this.state.userAccountName}</div>
                     <div>Account Phone Number: {this.state.userPhoneNumber}</div>
-                </div>
-                <div>
-                    <div>ORDER DETAILS: </div>
-                    <div>{this.state.responseToPost}</div>
-                    <table id="OrdersTable" className="OrdersTable">
-                        <tr>
-                            <th>Order Number</th>
-                            <th>Order Date</th>
-                            <th>Listed Price</th>
-                            <th>Property Number</th>
-                            <th>Payment Method</th>
-                            <th>Payment Amount</th>
-                        </tr>
-                        {rows}
-                    </table>
                 </div>
                 <div>
                     <input onChange={
@@ -134,9 +113,9 @@ class UserAccount extends Component {
                       newUserName: e.target.value
                     })
                   } type='text'></input>
-                    <button type='button' onClick={this.updateUserName}>Update User Name</button>
+                    <Button type='button' onClick={this.updateUserName}>Update User Name</Button>
                 </div>
-                <div>User Name Status: {this.state.nameStatus}</div>
+                <div>{this.state.nameStatus}</div>
                 <div>
                     <input onChange={
                     e => 
@@ -144,9 +123,14 @@ class UserAccount extends Component {
                       newUserPassword: e.target.value
                     })
                   } type='text'></input>
-                    <button onClick={this.updatePassword}>Update Password</button>
+                    <Button onClick={this.updatePassword}>Update Password</Button>
                 </div>
-                <div>Password Status: {this.state.passwordStatus}</div>
+                <div>{this.state.passwordStatus}</div>
+                <div>
+                    <div>ORDER DETAILS: </div>
+                    <div>{this.state.responseToPost}</div>
+                    <AccountTable orders={this.state.orders}></AccountTable>
+                </div>
             </div>
         );
     } 

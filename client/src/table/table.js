@@ -14,7 +14,6 @@ class Table extends Component {
     }
 
     render() {
-        console.log(this.props.properties)
         const columns = [
             {
                 Header: "Property Number",
@@ -59,6 +58,8 @@ class Table extends Component {
                 <ReactTable
                     columns={columns}
                     data={this.props.properties}
+                    filterable
+                    defaultFilterMethod={(filter, row) => String(row[filter.id] == filter.value)}
                 >
                 </ReactTable>
             )

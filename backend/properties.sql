@@ -45,17 +45,21 @@ CREATE TABLE orders (
 	email VARCHAR,
 	listedPrice float,
 	propertyNumber int,
+	status VARCHAR,
 	PRIMARY KEY (orderNumber),
 	FOREIGN KEY (email) REFERENCES account(email) ON DELETE CASCADE,
-    FOREIGN KEY (propertyNumber) REFERENCES  property(propertyNumber) ON DELETE CASCADE
+    FOREIGN KEY (propertyNumber) REFERENCES  property(propertyNumber) ON DELETE NO ACTION
 );
 
-INSERT INTO orders (orderNumber, date, email, listedprice, propertyNumber) VALUES
-(102, 'Mon. Feb. 25, 2019', 'test1@gmail.com', 1000000, 12381), 
-(105, 'Mon. Feb. 25, 2019', 'test2@gmail.com', 2000000, 12382),
-(12, 'Mon. Feb. 25, 2019', 'test3@gmail.com', 500000, 12383),
-(32, 'Mon. Feb. 25, 2019', 'test4@gmail.com', 5000000, 12384),
-(421, 'Mon. Feb. 25, 2019', 'test5@gmail.com', 1000000, 12385);
+ALTER TABLE orders DROP CONSTRAINT orders_propertynumber_fkey;
+
+
+INSERT INTO orders (orderNumber, date, email, listedprice, propertyNumber, status) VALUES
+(102, 'Mon. Feb. 25, 2019', 'test1@gmail.com', 1000000, 12381, 'approved'), 
+(105, 'Mon. Feb. 25, 2019', 'test2@gmail.com', 2000000, 12382, 'pending'),
+(12, 'Mon. Feb. 25, 2019', 'test3@gmail.com', 500000, 12383, 'pending'),
+(32, 'Mon. Feb. 25, 2019', 'test4@gmail.com', 5000000, 12384, 'pending'),
+(421, 'Mon. Feb. 25, 2019', 'test5@gmail.com', 1000000, 12385, 'pending');
 
 CREATE TABLE payments (
 	paymentNumber int,

@@ -58,7 +58,6 @@ class App extends Component {
     })
   }
   
-  
   handleLogin = async () => {
     const response = await fetch("/api/login", {
       method: "POST",
@@ -76,6 +75,7 @@ class App extends Component {
     const body = await response.text();
     this.setState({responseToPost:body});
     this.setState({showModal:false});
+    window.user_email = this.state.email;
   };
 
   render() {

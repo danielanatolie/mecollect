@@ -51,8 +51,7 @@ class App extends Component {
 
   hideLoginModal = async e => {
     this.setState({
-      showModal: false,
-      loginSuccess: true
+      showModal: false
     });
   }
   
@@ -97,7 +96,10 @@ class App extends Component {
     const body = await response.text();
     this.setState({responseToPost:body});
     userEmail = this.state.email;
-    this.setState({showModal:false});
+    this.setState({
+      showModal:false,
+      loginSuccess: true
+    });
   };
 
   render() {

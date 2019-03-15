@@ -18,6 +18,18 @@ function getAllUsers(req, res, next) {
         });
 }
 
+function getAllProperties(req, res, next) {
+  db.any('SELECT * from Properties') //NEED JOINS ON LOCATION, ETC
+        .then(function (data) {
+          res.status(200)
+              .json({
+                properties: data
+              });
+        }).catch(function(err) {
+          return next(err);
+        });
+}
+
 function getProperty(req, res, next) {
   var sql = 'SELECT originalPrice, size, yearBuilt, propertyTypeID, typeIDIndex \
   FROM Properties \

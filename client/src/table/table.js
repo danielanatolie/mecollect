@@ -39,27 +39,7 @@ class Table extends Component {
             {
                 Header: "Property Type",
                 accessor: "propertytype",
-                filterMethod: (filter, row) => {
-                    if (filter.value === "all") {
-                      return true;
-                    }
-                    if (filter.value === "mansion") {
-                        return row[filter.id] == "mansion";
-                    }
-                    if (filter.value === "houses") {
-                        return row[filter.id] == "house";
-                    }
-                    return false;
-                },
-                Filter: ({filter, onChange}) => 
-                <select 
-                    onChange={event => onChange(event.target.value)}
-                      style={{ width: "100%" }}
-                      value={filter ? filter.value : "all"}>
-                      <option value="all">Show All</option>
-                      <option value="mansion">Mansion</option>
-                      <option value="houses">Apartment</option>
-                </select>
+                filterable: false
             },
             {
                 Header: "Total Beds",

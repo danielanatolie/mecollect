@@ -18,18 +18,6 @@ function getAllUsers(req, res, next) {
         });
 }
 
-function getAllProperties(req, res, next) {
-  db.any('SELECT * from Properties') //NEED JOINS ON LOCATION, ETC
-        .then(function (data) {
-          res.status(200)
-              .json({
-                properties: data
-              });
-        }).catch(function(err) {
-          return next(err);
-        });
-}
-
 function getProperty(req, res, next) {
   var sql = 'SELECT originalPrice, size, yearBuilt, propertyTypeID, typeIDIndex \
   FROM Properties \
@@ -242,7 +230,10 @@ function createUser(req, res, next) {
 }
 
 function getAllProperties(req, res, next) {
-  db.any('SELECT * FROM property')
+  var sql = 'SELECT * FROM property ';
+  var propertyType = req.body.propertyType; 
+  sql += propertyType == 'all' ? '' : ('where propertytype = \'' + propertyType + '\'');
+  db.any(sql)
     .then(function(data) {
       res.status(200)
          .json({
@@ -269,5 +260,4 @@ module.exports = {
     getUserData: getUserData,
     authenticateUser: authenticateUser,
     createUser: createUser,
-    getAllProperties: getAllProperties
 }

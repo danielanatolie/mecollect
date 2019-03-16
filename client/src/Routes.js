@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import UserAccount from './Account.js';
 import Main from './Main.js';
 import BuyingAgreements from './BuyingAgreements';
+import SellerProperties from './SellerProperties';
 
 class Routes extends Component {
   render() {
@@ -13,6 +14,7 @@ class Routes extends Component {
         <Route path='/home' component={Main}/>
         <Route path='/account' component={UserAccount} />
         <Route path='/buying_agreements' component={BuyingAgreements} />
+		<Route path='/properties' component={SellerProperties} />
       </Switch>
     );
   }

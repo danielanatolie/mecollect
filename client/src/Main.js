@@ -3,7 +3,7 @@ import './App.css';
 import Header from './Header.js';
 import Table from './table/table.js'
 
-class Account extends Component {
+class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,4 +37,4 @@ class Account extends Component {
   }
 }
 
-export default Account;
+export default Main;

@@ -1,68 +1,47 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Link } from 'react-router-dom';
-import {userEmail} from './App';
+import { userEmail } from './App';
 
 class Header extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			user_permissions: null
-		}
-	}
+	state = {
+		email: userEmail,
+		permissions: ""
+	};
 
 	componentDidMount() {
 		this.getUserPermissions().then((data) => {
-			console.log("data:");
-			console.log(data);
+			this.setState({
+				permissions: data.userInfo[0].permissions
+			});
 		});
 	}
 
 	getUserPermissions = async () => {
-		let email = "test1@gmail.com";
-
-		// TODO: Change 'email' to 'userEmail'
-		console.log("email: " + email);
-
-		const response = await fetch("/api/getUserInfo", {
-			method: "POST",
-			headers: {
-				"Content-Type": "aplication/json"
-			},
-			body: JSON.stringify({
-				email: email
-			})
-		});
-		
-    const body = await response.json();
-		if (response.status === 200) {
-			console.log("SUCCESSFUL");
+		try {
+			const response = await fetch('/api/getUserInfo', {
+				method: 'POST',
+				headers: {
+				  'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email: this.state.email
+				}),
+			});
+			const body = await response.json();
+			return  body;
+		} catch (err) {
+			console.log(err);
 		}
-		return body;
 	};
-
-	// getUserPermissions = async () => {
-  //   var email = "test1@gmail.com";
-
-  //   const response = await fetch("/api/permissions", {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       email: email
-  //     }),
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     }
-  //   });
-  //   const body = await response.json();
-  //   if (response.status === 200) {
-	// 		console.log(body.data[0].permissions);
-  //   }
-  // };
 
   render() {
 		let propertiesLink;
-		// Check if user is a "seller"
-		propertiesLink = <Link to='/properties'>My Properties</Link>;
+		if (this.state.permissions === "seller") {
+			propertiesLink = <Link to='/properties'>My Properties</Link>;
+		} else {
+			propertiesLink = null;
+		}
 
 		return (
 			<div className="Header">

@@ -11,15 +11,16 @@ CREATE TABLE property (
 	propertyType VARCHAR,
 	totalBeds int,
 	totalBaths int,
+	ownerEmail VARCHAR,
 	PRIMARY KEY (propertyNumber)
 );
 
-INSERT INTO property (propertyNumber, originalPrice, propertyAddress, yearbuilt, propertyType, totalBeds, totalBaths) VALUES 
-(12381, 1000000.0, '1 test a5te California', 2018, 'mansion', 10, 3),
-(12382, 2000000.0, '1 test a5te2 New York', 2018, 'mansion', 10, 5),
-(12383, 1000000.0, '1 test a5te3 Vancouver', 2018, 'mansion', 10, 2),
-(12384, 3000000.0, '1 test a5te4 Toronto', 2018, 'mansion', 10, 1),
-(12385, 5000000.0, '1 test a5te5 Los Angeles', 2018, 'mansion', 10, 7);
+INSERT INTO property (propertyNumber, originalPrice, propertyAddress, yearbuilt, propertyType, totalBeds, totalBaths, ownerEmail) VALUES 
+(12381, 1000000.0, '1 test a5te California', 2018, 'mansion', 10, 3, NULL),
+(12382, 2000000.0, '1 test a5te2 New York', 2018, 'mansion', 10, 5, 'test2@gmail.com'),
+(12383, 1000000.0, '1 test a5te3 Vancouver', 2018, 'mansion', 10, 2, 'test2@gmail.com'),
+(12384, 3000000.0, '1 test a5te4 Toronto', 2018, 'mansion', 10, 1, NULL),
+(12385, 5000000.0, '1 test a5te5 Los Angeles', 2018, 'mansion', 10, 7, 'test2@gmail.com');
 
 CREATE TABLE account (
 	email VARCHAR,
@@ -41,7 +42,7 @@ INSERT INTO account (email, permissions, accountName, accountPassword, phone, ra
 
 CREATE TABLE orders (
 	orderNumber int,
-	date VARCHAR,	
+	date VARCHAR,
 	email VARCHAR,
 	listedPrice float,
 	propertyNumber int,

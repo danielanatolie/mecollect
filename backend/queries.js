@@ -241,6 +241,21 @@ function createUser(req, res, next) {
       });
 }
 
+function getPropertiesByOwner(req, res, next) {
+  db.any('SELECT * FROM property WHERE ownerEmail = ${ownerEmail}', {
+    ownerEmail: req.body.email
+  })
+    .then(function(data) {
+      console.log("email: " + req.body.email);
+      res.status(200)
+         .json({
+           data
+         })
+    }).catch(function(err){
+      console.log("An error occured while calling getPropertiesByOwner ", err);
+    });
+}
+
 function getAllProperties(req, res, next) {
   db.any('SELECT * FROM property')
     .then(function(data) {
@@ -269,5 +284,6 @@ module.exports = {
     getUserData: getUserData,
     authenticateUser: authenticateUser,
     createUser: createUser,
+    getPropertiesByOwner: getPropertiesByOwner,
     getAllProperties: getAllProperties
 }

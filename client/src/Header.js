@@ -10,11 +10,9 @@ class Header extends Component {
 	};
 
 	componentDidMount() {
-		this.getUserPermissions().then((data) => {
-			this.setState({
-				permissions: data.userInfo[0].permissions
-			});
-		});
+		this.getUserPermissions()
+			.then(data => this.setState({ permissions: data.userInfo[0].permissions}))
+			.catch(err => console.log(err));
 	}
 
 	getUserPermissions = async () => {

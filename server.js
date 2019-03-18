@@ -52,7 +52,6 @@ app.delete('/api/deleteUser', (req, res) => {
 });
 
 app.post('/api/propertiesByOwner', (req, res) => {
-  console.log("test");
   db.getPropertiesByOwner(req, res);
 });
 

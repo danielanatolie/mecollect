@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import Modal from './modal.js';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 export var userEmail = '';
 
@@ -103,7 +103,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state.properties);
     if (this.state.loginSuccess === true) {
       return <Redirect to={{
             pathname: '/home'

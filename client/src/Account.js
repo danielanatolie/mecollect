@@ -62,7 +62,7 @@ class UserAccount extends Component {
       };
 
       updatePassword = async () => {
-        if (this.state.newUserPassword != '') {
+        if (this.state.newUserPassword !== '') {
             const response = await fetch('/api/updateUserPassword', {
                 method: 'POST',
                 headers: {
@@ -79,7 +79,7 @@ class UserAccount extends Component {
       }
 
       updateUserName = async e => {
-        if (this.state.newUserName != '') {  
+        if (this.state.newUserName !== '') {
             e.preventDefault();
             const response = await fetch('/api/updateUserName', {
                 method: 'POST',

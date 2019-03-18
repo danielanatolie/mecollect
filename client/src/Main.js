@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Header from './Header.js';
-import Table from './table/table.js'
+import Table from './table/table.js';
 
 class Main extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class Main extends Component {
       <div className="Account">
         <Header />
         <h1>Welcome to MyPropeties!</h1>
-        <Table properties={this.state.properties}></Table>
+        <Table properties={this.state.properties} editable={false}></Table>
       </div>
     );
   }

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import matchSorter from 'match-sorter';
 import {userEmail} from '../App';
+
 
 class Table extends Component {
     state = {
@@ -58,7 +60,11 @@ class Table extends Component {
             },
             {
                 Header: "Property Address",
-                accessor: "propertyaddress"
+                id:"propertyaddress",
+                accessor: d => d.propertyaddress,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["propertyaddress"] }),
+                  filterAll: true
             },
             {
                 Header: "Year Built",
@@ -66,7 +72,8 @@ class Table extends Component {
             },
             {
                 Header: "Property Type",
-                accessor: "propertytype"
+                accessor: "propertytype",
+                filterable: false
             },
             {
                 Header: "Total Beds",
@@ -78,6 +85,7 @@ class Table extends Component {
             },
             {
                 Header: '',
+                filterable: false,
                 Cell: row => (
                     <div>
                         <button onClick={() => this.handleBuy(row.original)}>Buy</button>
@@ -92,7 +100,6 @@ class Table extends Component {
                     columns={columns}
                     data={this.props.properties}
                     filterable
-                    defaultFilterMethod={(filter, row) => String(row[filter.id] == filter.value)}
                 >
                 </ReactTable>
             )

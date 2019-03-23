@@ -51,6 +51,10 @@ app.delete('/api/deleteUser', (req, res) => {
   db.deleteUser(req, res);
 });
 
+app.post('/api/propertiesByOwner', (req, res) => {
+  db.getPropertiesByOwner(req, res);
+});
+
 app.post('/api/getUserInfo', (req, res) => {
   db.getUserData(req, res);
 });

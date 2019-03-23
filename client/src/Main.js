@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 import Header from './Header.js';
-import Table from './table/table.js'
+import Table from './table/table.js';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css'
 
-class Account extends Component {
+class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,4 +59,4 @@ class Account extends Component {
   }
 }
 
-export default Account;
+export default Main;

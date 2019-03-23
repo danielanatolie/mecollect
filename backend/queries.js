@@ -46,28 +46,51 @@ function getProperty(req, res, next) {
 }
 
 function addProperty(req, res, next) {
-  var sql = '';
-  db.any(sql)
+  db.any('INSERT INTO property VALUES (${propertyNumber}, ${originalPrice}, ${propertyAddress}, ${yearbuilt}, \
+         ${propertyType}, ${totalBeds}, ${totalBaths}, ${ownerEmail})', {
+          propertyNumber: req.body.propertyNumber,
+          originalPrice: req.body.originalPrice,
+          propertyAddress: req.body.propertyAddress,
+          yearbuilt: req.body.yearBuilt,
+          propertyType: req.body.propertyType,
+          totalBeds: req.body.totalbeds,
+          totalBaths: req.body.totalbaths,
+          ownerEmail: req.body.ownerEmail
+         })
         .then(function (data) {
           res.status(200)
               .json({
-                property: data
+                message: "New property created"
               });
         }).catch(function (err) {
-          return next(err);
+          console.log(err);
         });
 }
 
 function updateProperty(req, res, next) {
-  var sql = '';
-  db.any(sql)
+  db.any('UPDATE property \
+          SET originalPrice = ${originalPrice}, \
+          propertyAddress = ${propertyAddress}, \
+          yearbuilt = ${yearBuilt}, \
+          propertyType = ${propertyType}, \
+          totalBeds = ${totalBeds}, \
+          totalBaths = ${totalBaths} \
+          WHERE propertyNumber = ${propertyNumber}', {
+            originalPrice: req.body.originalPrice,
+            propertyAddress: req.body.propertyAddress,
+            yearBuilt: req.body.yearBuilt,
+            propertyType: req.body.propertyType,
+            totalBeds: req.body.totalBeds,
+            totalBaths: req.body.totalBaths,
+            propertyNumber: req.body.propertyNumber
+          })
         .then(function (data) {
           res.status(200)
               .json({
                 property: data
               });
         }).catch(function (err) {
-          return next(err);
+          console.log(err);
         });
 }
 
@@ -86,15 +109,16 @@ function deleteUser(req, res, next) {
 }
 
 function deleteProperty(req, res, next) {
-  var sql = '';
-  db.any(sql)
+  db.any('DELETE FROM property WHERE propertyNumber = ${propertyNumber}', {
+    propertyNumber: req.body.propertyNumber
+  })
         .then(function (data) {
           res.status(200)
               .json({
-                property: data
+                message: "Property deleted"
               });
         }).catch(function (err) {
-          return next(err);
+          console.log(err);
         });
 }
 
@@ -203,19 +227,6 @@ function cancelPurchase(req, res, next) {
         });
 }
 
-function deleteProperty(req, res, next) {
-  var sql = '';
-  db.any(sql)
-        .then(function (data) {
-          res.status(200)
-              .json({
-                property: data
-              });
-        }).catch(function (err) {
-          return next(err);
-        });
-}
-
 function authenticateUser(req, res, next) {
   // Authenticate user
   db.query('SELECT * FROM account WHERE email =  ${email} AND accountPassword = ${password}', {
@@ -236,7 +247,7 @@ function authenticateUser(req, res, next) {
                   data
               });
       }).catch(function(err) {
-          // Handle errors
+          console.log(err);
       });
 }
 
@@ -262,6 +273,20 @@ function createUser(req, res, next) {
       });
 }
 
+function getPropertiesByOwner(req, res, next) {
+  db.any('SELECT * FROM property WHERE ownerEmail = ${ownerEmail}', {
+    ownerEmail: req.body.email
+  })
+    .then(function(data) {
+      res.status(200)
+         .json({
+           data
+         })
+    }).catch(function(err){
+      console.log("An error occured while calling getPropertiesByOwner ", err);
+    });
+}
+
 function getAllProperties(req, res, next) {
   var sql = 'SELECT * FROM property ';
   var propertyType = req.body.propertyType; 
@@ -279,7 +304,6 @@ function getAllProperties(req, res, next) {
 
 module.exports = {
     getAllUsers: getAllUsers,
-    getAllProperties: getAllProperties,
     getProperty: getProperty,
     addProperty: addProperty,
     updateProperty: updateProperty,
@@ -294,4 +318,6 @@ module.exports = {
     getUserData: getUserData,
     authenticateUser: authenticateUser,
     createUser: createUser,
+    getPropertiesByOwner: getPropertiesByOwner,
+    getAllProperties: getAllProperties
 }

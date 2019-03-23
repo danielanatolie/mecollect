@@ -9,7 +9,7 @@ class Table extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userEmail: userEmail
+            userEmail: userEmail,
             showDetails: false,
             showEditable: false,
             properties: null,

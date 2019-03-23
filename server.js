@@ -83,7 +83,9 @@ app.delete('/api/deleteProperty', (req, res) => {
   db.deleteProperty(req, res);
 });
 
-app.get('/api/properties', db.getAllProperties);
+app.post('/api/properties', db.getAllProperties);
+
+app.post('/api/createOrder', db.createOrder);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));     
 

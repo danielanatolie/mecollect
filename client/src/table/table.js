@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import matchSorter from 'match-sorter';
+import {userEmail} from '../App';
 import DetailsModal from '../DetailsModal.js';
 
 class Table extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            userEmail: userEmail
             showDetails: false,
             showEditable: false,
             properties: null,
@@ -19,8 +22,37 @@ class Table extends Component {
         this.handleSaveEdit = this.handleSaveEdit.bind(this);
     }
 
-    handleBuy() {
+    getDate() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1;
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+        if(mm<10) {
+            mm = '0'+mm
+        }
+        today = mm + '/' + dd + '/' + yyyy;
+        return today;
+    }
 
+    handleBuy = async(row) => {
+        console.log(row);
+        const response = await fetch("api/createOrder", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ordernumber: Math.floor((Math.random() * 10000) + 1),
+                date: this.getDate(),
+                email: this.state.userEmail,
+                listedprice: row.originalprice,
+                propertynumber: row.propertynumber
+            })
+        });
+        const body = await response.text();
     }
 
     showDetails(e) {
@@ -121,7 +153,11 @@ class Table extends Component {
             },
             {
                 Header: "Property Address",
-                accessor: "propertyaddress"
+                id:"propertyaddress",
+                accessor: d => d.propertyaddress,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["propertyaddress"] }),
+                  filterAll: true
             },
             {
                 Header: "Year Built",
@@ -129,7 +165,8 @@ class Table extends Component {
             },
             {
                 Header: "Property Type",
-                accessor: "propertytype"
+                accessor: "propertytype",
+                filterable: false
             },
             {
                 Header: "Total Beds",
@@ -141,6 +178,7 @@ class Table extends Component {
             },
             {
                 Header: '',
+                filterable: false,
                 Cell: row => (
                     <div>
                         {this.props.editable

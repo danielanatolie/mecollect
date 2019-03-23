@@ -3,7 +3,7 @@ var options = {
   promiseLib: promise
 };
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://localhost:5432/myproperty';
+var connectionString = 'postgres://USERNAME:PASSWORD@localhost:5432/myproperty';
 var db = pgp(connectionString);
 
 function getAllUsers(req, res, next) {
@@ -134,6 +134,27 @@ function getUserData(req, res, next)
       }).catch(function (err) {
         return next(err);
       });
+}
+
+function createOrder(req, res, next) {
+  db.any('INSERT INTO orders VALUES (${ordernumber}, ${date}, ${email}, ${listedprice}, ${propertynumber})', {
+    ordernumber: req.body.ordernumber,
+    date: req.body.date,
+    email: req.body.email,
+    listedprice: req.body.listedprice,
+    propertynumber: req.body.propertynumber
+  }).then(data => {
+    res.status(200)
+       .json({
+         message: "New order has been created."
+       });
+  }).catch(error => {
+      console.log(error);
+      res.status(400)
+         .json({
+           error: error.detail
+         })
+  });
 }
 
 function getUserOrders(req, res, next) {
@@ -267,7 +288,10 @@ function getPropertiesByOwner(req, res, next) {
 }
 
 function getAllProperties(req, res, next) {
-  db.any('SELECT * FROM property')
+  var sql = 'SELECT * FROM property ';
+  var propertyType = req.body.propertyType; 
+  sql += propertyType == 'all' ? '' : ('where propertytype = \'' + propertyType + '\'');
+  db.any(sql)
     .then(function(data) {
       res.status(200)
          .json({
@@ -280,7 +304,6 @@ function getAllProperties(req, res, next) {
 
 module.exports = {
     getAllUsers: getAllUsers,
-    getAllProperties: getAllProperties,
     getProperty: getProperty,
     addProperty: addProperty,
     updateProperty: updateProperty,
@@ -290,6 +313,7 @@ module.exports = {
     buyProperty: buyProperty,
     cancelPurchase: cancelPurchase,
     deleteProperty: deleteProperty,
+    createOrder: createOrder,
     getUserOrders: getUserOrders,
     getUserData: getUserData,
     authenticateUser: authenticateUser,

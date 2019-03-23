@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 import './UserAccount.css';
 import {userEmail} from './App';
 
-class UserAccount extends Component { 
+class UserAccount extends Component {
     state = {
         response: '',
         post: '',

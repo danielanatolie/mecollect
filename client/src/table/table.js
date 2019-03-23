@@ -2,11 +2,44 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import {userEmail} from '../App';
 
 class Table extends Component {
+    state = {
+        userEmail: userEmail
+    }
 
-    handleBuy() {
+    getDate() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1;
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+        if(mm<10) {
+            mm = '0'+mm
+        }
+        today = mm + '/' + dd + '/' + yyyy;
+        return today;
+    }
 
+    handleBuy = async(row) => {
+        console.log(row);
+        const response = await fetch("api/createOrder", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ordernumber: Math.floor((Math.random() * 10000) + 1),
+                date: this.getDate(),
+                email: this.state.userEmail,
+                listedprice: row.originalprice,
+                propertynumber: row.propertynumber
+            })
+        });
+        const body = await response.text();
     }
 
     handleDetails() {

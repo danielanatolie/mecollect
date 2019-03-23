@@ -112,6 +112,27 @@ function getUserData(req, res, next)
       });
 }
 
+function createOrder(req, res, next) {
+  db.any('INSERT INTO orders VALUES (${ordernumber}, ${date}, ${email}, ${listedprice}, ${propertynumber})', {
+    ordernumber: req.body.ordernumber,
+    date: req.body.date,
+    email: req.body.email,
+    listedprice: req.body.listedprice,
+    propertynumber: req.body.propertynumber
+  }).then(data => {
+    res.status(200)
+       .json({
+         message: "New order has been created."
+       });
+  }).catch(error => {
+      console.log(error);
+      res.status(400)
+         .json({
+           error: error.detail
+         })
+  });
+}
+
 function getUserOrders(req, res, next) {
   db.any('SELECT orders.orderNumber, orders.date, orders.listedPrice, \
           orders.propertyNumber, payments.method, payments.amount \
@@ -265,6 +286,7 @@ module.exports = {
     buyProperty: buyProperty,
     cancelPurchase: cancelPurchase,
     deleteProperty: deleteProperty,
+    createOrder: createOrder,
     getUserOrders: getUserOrders,
     getUserData: getUserData,
     authenticateUser: authenticateUser,

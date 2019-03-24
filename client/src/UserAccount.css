@@ -1,0 +1,9 @@
+.OrdersTable {
+    padding: 1em;
+    border: 1px solid black;
+}
+
+#OrdersTable > tr > td {
+    padding: 0.5em;
+    text-align: center;
+}

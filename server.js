@@ -38,9 +38,65 @@ app.post('/api/approve_agreement', (req, res) => {
 app.post('/api/permissions', (req, res) => {
   console.log(req.body);
   db.getPermissions(req, res, null);
+app.get('/api/users', (req, res) => {
+  db.getAllUsers(req, res);
 });
 
-app.get('/api/properties', db.getAllProperties);
+app.get('/api/allProperties', (req, res) => {
+  db.getAllProperties(req, res);
+});
+
+app.get('/api/property/:id', (req, res) => {
+  db.getProperty(req, res);
+});
+
+app.put('/api/addProperty', (req, res) => {
+  db.addProperty(req, res);
+});
+
+app.put('/api/updateProperty', (req, res) => {
+  db.updateProperty(req, res);
+});
+
+app.delete('/api/deleteUser', (req, res) => {
+  db.deleteUser(req, res);
+});
+
+app.post('/api/propertiesByOwner', (req, res) => {
+  db.getPropertiesByOwner(req, res);
+});
+
+app.post('/api/getUserInfo', (req, res) => {
+  db.getUserData(req, res);
+});
+
+app.post('/api/updateUserName', (req, res) => {
+  db.updateUserName(req, res);
+});
+
+app.post('/api/updateUserPassword', (req, res) => {
+  db.updateUserPassword(req, res);
+});
+
+app.post('/api/getUserOrders' , (req, res) => {
+  db.getUserOrders(req, res);
+});
+
+app.put('/api/buyProperty', (req, res) => {
+  db.buyProperty(req, res);
+});
+
+app.put('/api/cancelPurchase', (req, res) => {
+  db.cancelPurchase(req, res);
+});
+
+app.delete('/api/deleteProperty', (req, res) => {
+  db.deleteProperty(req, res);
+});
+
+app.post('/api/properties', db.getAllProperties);
+
+app.post('/api/createOrder', db.createOrder);
 
 app.get('/api/agreements', db.getAllBuyingAgreements);
 

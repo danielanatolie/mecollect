@@ -300,7 +300,69 @@ function getAllProperties(req, res, next) {
     }).catch(function(err){
       console.log("An error occured while calling getAllProperties ", err);
     });
-}
+  }
+
+  function getAllBuyingAgreements(req, res, next) {
+    db.any("SELECT * FROM orders")
+      .then(function(data) {
+        res.status(200).json({
+          data
+        });
+      })
+      .catch(function(err) {
+        console.log(
+          "An error occured while calling getAllBuyingAgreements ",
+          err
+        );
+      });
+  }
+  
+  function approveAgreement(req, res, next) {
+    db.any(
+      "UPDATE orders SET status = ${status} WHERE propertyNumber = ${pNum}",
+      {
+        pNum: req.body.propertyNumber,
+        status: "approved"
+      }
+    )
+      .then(() => {
+        db.any("DELETE FROM property WHERE propertyNumber =  ${pNum}", {
+          pNum: req.body.propertyNumber
+        });
+      })
+      .then(() => {})
+      .catch(function(err) {
+        console.log("An error occured while calling approveAgreement", err);
+      });
+  }
+  
+  function getAgreementInfo(req, res, next) {
+    db.any("SELECT * FROM orders WHERE propertyNumber =  ${pNum}", {
+      pNum: req.body.propertyNumber
+    })
+      .then(function(data) {
+        res.status(200).json({
+          data
+        });
+      })
+      .catch(function(err) {
+        console.log("An error occured while calling getAgreementInfor ", err);
+      });
+  }
+  
+  function getPermissions(req, res, next) {
+    db.any("SELECT permissions FROM account WHERE email = ${email}", {
+      email: req.body.user_email
+    })
+      .then(function(data) {
+        res.status(200).json({
+          data
+        });
+      })
+      .catch(function(err) {
+        console.log("An error occured while calling getPermissions ", err);
+      });
+  }
 
 module.exports = {
     getAllUsers: getAllUsers,
@@ -318,6 +380,10 @@ module.exports = {
     getUserData: getUserData,
     authenticateUser: authenticateUser,
     createUser: createUser,
+    getAllBuyingAgreements: getAllBuyingAgreements,
+    approveAgreement: approveAgreement,
+    getAgreementInfo: getAgreementInfo,
+    getPermissions: getPermissions,
     getPropertiesByOwner: getPropertiesByOwner,
     getAllProperties: getAllProperties
-}
+};

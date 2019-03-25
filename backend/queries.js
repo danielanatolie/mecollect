@@ -252,11 +252,11 @@ function authenticateUser(req, res, next) {
 }
 
 function createUser(req, res, next) {
-  db.any('INSERT INTO account VALUES (${email}, ${password}, ${firstname}, ${lastname})', {
+  db.any('INSERT INTO account VALUES (${email}, ${permissions}, ${name}, ${password}, NULL, NULL)', {
           email: req.body.email,
           password: req.body.password,
-          firstname: req.body.firstname,
-          lastname: req.body.lastname
+          name: req.body.firstname.concat(" ").concat(req.body.lastname),
+          permissions: req.body.permissions
       })
       .then(data => {
           res.status(200)

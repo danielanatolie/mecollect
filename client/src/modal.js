@@ -12,9 +12,18 @@ export default class Modal extends Component {
       email: "",
       password: "",
       firstname: "",
-      lastname: ""
+      lastname: "",
+      permissions: "buyer", // Default is buyer
+      button_title: "Select Account Type"
     };
   
+}
+
+handleDropdownSelect = async (key) => {
+  this.setState({
+    button_title: key,
+    permissions: key.toLowerCase()
+  });
 }
 
  
@@ -25,7 +34,8 @@ export default class Modal extends Component {
       this.state.email, 
       this.state.password, 
       this.state.firstname, 
-      this.state.lastname
+      this.state.lastname,
+      this.state.permissions
       );
   }
 
@@ -75,6 +85,24 @@ export default class Modal extends Component {
         <ReactBootstrap.Modal.Title>Sign Up</ReactBootstrap.Modal.Title>
       </ReactBootstrap.Modal.Header>
       <br/>
+      <ReactBootstrap.Form.Row>
+
+      <ReactBootstrap.DropdownButton 
+        title= {this.state.button_title}
+        >
+      <ReactBootstrap.Dropdown.Item 
+      key="1"
+      onSelect={e => this.handleDropdownSelect("Buyer")}>Buyer</ReactBootstrap.Dropdown.Item>
+      <ReactBootstrap.Dropdown.Item 
+        key="2"
+        onSelect={e => this.handleDropdownSelect("Seller")}>Seller</ReactBootstrap.Dropdown.Item>
+      <ReactBootstrap.Dropdown.Item key="3"
+        onSelect={e => this.handleDropdownSelect("Agent")}>Agent</ReactBootstrap.Dropdown.Item>
+      </ReactBootstrap.DropdownButton>
+
+</ReactBootstrap.Form.Row>
+<br/>
+
       <ReactBootstrap.Form.Row>
           <ReactBootstrap.Form.Label>Name</ReactBootstrap.Form.Label>
           <ReactBootstrap.InputGroup>
@@ -131,6 +159,8 @@ export default class Modal extends Component {
             />
           </ReactBootstrap.InputGroup>
         </ReactBootstrap.Form.Row>
+        <br />
+        
         <br />
         <ReactBootstrap.Button 
         variant="primary" 

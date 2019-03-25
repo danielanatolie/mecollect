@@ -137,16 +137,38 @@ function getUserData(req, res, next)
 }
 
 function createOrder(req, res, next) {
-  db.any('INSERT INTO orders VALUES (${ordernumber}, ${date}, ${email}, ${listedprice}, ${propertynumber})', {
+  console.log(req.body);
+  db.any('INSERT INTO orders VALUES (${ordernumber}, ${date}, ${email}, ${listedprice}, ${propertynumber}, ${status})', {
     ordernumber: req.body.ordernumber,
     date: req.body.date,
     email: req.body.email,
     listedprice: req.body.listedprice,
-    propertynumber: req.body.propertynumber
+    propertynumber: req.body.propertynumber,
+    status: req.body.status
   }).then(data => {
     res.status(200)
        .json({
          message: "New order has been created."
+       });
+  }).catch(error => {
+      console.log(error);
+      res.status(400)
+         .json({
+           error: error.detail
+         })
+  });
+}
+
+function createPayment(req, res, next) {
+  db.any('INSERT INTO payments VALUES (${paymentnumber}, ${ordernumber}, ${method}, ${amount})', {
+    paymentnumber: req.body.paymentnumber,
+    ordernumber: req.body.ordernumber,
+    method: req.body.method,
+    amount: req.body.amount,
+  }).then(data => {
+    res.status(200)
+       .json({
+         message: "New payment has been created."
        });
   }).catch(error => {
       console.log(error);
@@ -385,5 +407,6 @@ module.exports = {
     getAgreementInfo: getAgreementInfo,
     getPermissions: getPermissions,
     getPropertiesByOwner: getPropertiesByOwner,
-    getAllProperties: getAllProperties
+    getAllProperties: getAllProperties,
+    createPayment: createPayment
 };

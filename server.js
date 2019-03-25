@@ -100,6 +100,8 @@ app.post('/api/properties', db.getAllProperties);
 
 app.post('/api/createOrder', db.createOrder);
 
+app.post('/api/createPayment', db.createPayment);
+
 app.get('/api/agreements', db.getAllBuyingAgreements);
 
 app.post('/api/send_agreement_form', (req, res) => {

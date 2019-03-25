@@ -58,6 +58,8 @@ class UserAccount extends Component {
           body: JSON.stringify({ email: this.state.email }),
         });
         const body = await response.text();
+        console.log("Inside getOrderDetails: ");
+        console.log(JSON.parse(body).data);
         this.setState({ orders: JSON.parse(body).data });
       };
 

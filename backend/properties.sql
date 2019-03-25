@@ -53,7 +53,7 @@ CREATE TABLE orders (
 );
 
 ALTER TABLE orders DROP CONSTRAINT orders_propertynumber_fkey;
-
+ALTER TABLE orders DROP CONSTRAINT orders_email_fkey;
 
 INSERT INTO orders (orderNumber, date, email, listedprice, propertyNumber, status) VALUES
 (102, 'Mon. Feb. 25, 2019', 'test1@gmail.com', 1000000, 12381, 'approved'), 

@@ -4,6 +4,7 @@ import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
 import {userEmail} from '../App';
 import DetailsModal from '../DetailsModal.js';
+import BuyingDetailsModal from '../BuyingDetailsModal.js';
 
 class Table extends Component {
     constructor(props) {
@@ -13,13 +14,21 @@ class Table extends Component {
             showDetails: false,
             showEditable: false,
             properties: null,
-            newProperties: this.props.properties
+            newProperties: this.props.properties,
+            showBuyingDetails: false,
+            curRow: null,
+            orderNumber: null,
+            paymentNumber: null,
+            curAmount: null
         };
         this.showDetails = this.showDetails.bind(this);
         this.hideDetails = this.hideDetails.bind(this);
         this.showEditableDetails = this.showEditableDetails.bind(this);
         this.hideEditableDetails = this.hideEditableDetails.bind(this);
         this.handleSaveEdit = this.handleSaveEdit.bind(this);
+        this.showBuyingDetails = this.showBuyingDetails.bind(this);
+        this.hideBuyingDetails = this.hideBuyingDetails.bind(this);
+        this.createPaymentandOrder = this.createPaymentandOrder.bind(this);
     }
 
     getDate() {
@@ -37,22 +46,60 @@ class Table extends Component {
         return today;
     }
 
-    handleBuy = async(row) => {
+    showBuyingDetails(row) {
+        console.log("Got into showBuyingDetails!!");
+        let random1 = Math.floor((Math.random() * 10000) + 1);
+        let random2 = random1 + 100;
         console.log(row);
+        this.setState({
+            showBuyingDetails: true,
+            curRow: row,
+            curAmount: row.originalprice,
+            orderNumber: random1,
+            paymentNumber: random2
+        });
+    }
+
+    hideBuyingDetails() {
+        this.setState({ showBuyingDetails: false });
+    }
+
+   createPaymentandOrder = async(paymentMethod) => {
+       console.log("Creating payment and order... with email: ", this.state.userEmail);
         const response = await fetch("api/createOrder", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                ordernumber: Math.floor((Math.random() * 10000) + 1),
+                ordernumber: this.state.orderNumber,
                 date: this.getDate(),
                 email: this.state.userEmail,
-                listedprice: row.originalprice,
-                propertynumber: row.propertynumber
+                listedprice: this.state.curRow.originalprice,
+                propertynumber: this.state.curRow.propertynumber,
+                status: "pending"
             })
         });
         const body = await response.text();
+        console.log("Order has been created!");
+        
+
+        const createPaymentResponse = await fetch("api/createPayment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                paymentnumber: this.state.paymentNumber,
+                ordernumber: this.state.orderNumber,
+                method: paymentMethod,
+                amount: this.state.curAmount
+            })
+        });
+        const createPaymentResponseBody = await createPaymentResponse.text();
+        console.log("Payment has been created!");
+
+        this.hideBuyingDetails();
     }
 
     showDetails(e) {
@@ -183,7 +230,7 @@ class Table extends Component {
                     <div>
                         {this.props.editable
                             ? null
-                            : <button onClick={() => this.handleBuy(row.original)}>Buy</button>}
+                            : <button onClick={() => this.showBuyingDetails(row.original)}>Buy</button>}
                         {this.props.editable
                             ? <button onClick={() => this.handleDelete(row.original)}>Delete</button>
                             : null}
@@ -206,6 +253,18 @@ class Table extends Component {
                                 item={this.state.properties}
                                 readOnly={false}
                                 submitForm={this.handleSaveEdit}
+                            />
+                        ) : null}
+
+                        {this.state.showBuyingDetails ? (
+                            <BuyingDetailsModal
+                                show={this.state.showBuyingDetails}
+                                onHide={this.hideBuyingDetails}
+                                paymentNumber={this.state.paymentNumber}
+                                orderNumber={this.state.orderNumber}
+                                submitForm={this.createPaymentandOrder}
+                                curAmount={this.state.curAmount}
+                                email={this.state.userEmail}
                             />
                         ) : null}
                     </div>

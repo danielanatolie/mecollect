@@ -11,6 +11,10 @@ app.get('/api/hello', (req, res) => {
   res.send({ express: 'Hello From Express' });
 });
 
+app.get('/api/avgProperties', (req, res) => {
+  db.avgProperties(req, res);
+});
+
 app.post('/api/world', (req, res) => {
   console.log(req.body);
   res.send(
@@ -98,11 +102,15 @@ app.delete('/api/deleteProperty', (req, res) => {
 
 app.post('/api/properties', db.getAllProperties);
 
+app.post('/api/countProperties', db.countProperties);
+
 app.post('/api/createOrder', db.createOrder);
 
 app.post('/api/createPayment', db.createPayment);
 
 app.get('/api/agreements', db.getAllBuyingAgreements);
+
+app.get('/api/boughtAllProperties', db.boughtAllProperties);
 
 app.post('/api/send_agreement_form', (req, res) => {
   var transporter = nodemailer.createTransport({

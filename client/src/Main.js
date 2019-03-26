@@ -86,10 +86,10 @@ class Main extends Component {
     const body = await response.text();
     if (response.status !== 200) throw Error(body.message);
     var avgs = (JSON.parse(body)).data;
-    var text = '';
+    var text = 'Average Prices: ';
     for (var i = 0; i < avgs.length; i++) {
       var c = avgs[i].propertytype;
-      text += c[0].toUpperCase() + c.slice(1) + " average price: $" + avgs[i].avg + ", ";
+      text += c[0].toUpperCase() + c.slice(1) + ": "+ avgs[i].avg + ", ";
     }   
     text = text.substring(0, text.length - 2); 
     this.setState({ avg: text });

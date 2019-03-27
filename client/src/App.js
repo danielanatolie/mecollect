@@ -7,6 +7,11 @@ import './App.css';
 import Modal from './modal.js';
 import { Redirect } from 'react-router-dom';
 
+import img1 from './images/img1.jpg';
+import img2 from './images/img2.jpg';
+import img3 from './images/img3.jpg';
+import logo from './images/logo.jpg';
+
 export var userEmail = '';
 
 class App extends Component {
@@ -94,10 +99,7 @@ class App extends Component {
     });
     const body = await response.text();
     this.setState({responseToPost:body});
-//<<<<<<< frances
-    this.setState({showModal:false});
     window.user_email = this.state.email;
-//=======
     userEmail = this.state.email;
     this.setState({
       showModal:false,
@@ -116,9 +118,43 @@ class App extends Component {
       <div className="App">
         <p>{this.state.response}</p>
         <div>
-        <ReactBootstrap.Button type="button" onClick={this.showLoginModal}>
+        <div className="logo-container">
+            <img className="logo"
+                 src={logo}
+                 alt="MECOLLECT"
+                 width="300"/>
+        <ReactBootstrap.Button type="button"
+                               onClick={this.showLoginModal}
+                               className="login-button">
          Login
         </ReactBootstrap.Button>
+        </div>
+        <div className="carousel-container">
+            <ReactBootstrap.Carousel>
+              <ReactBootstrap.Carousel.Item>
+                <img
+                  className="d-block w-100 image"
+                  src={img1}
+                  alt="First slide"
+                />
+              </ReactBootstrap.Carousel.Item>
+              <ReactBootstrap.Carousel.Item>
+                <img
+                  className="d-block w-100 img image"
+                  src={img2}
+                  alt="Second slide"
+                />
+              </ReactBootstrap.Carousel.Item>
+              <ReactBootstrap.Carousel.Item>
+                <img
+                  className="d-block w-100 image"
+                  src={img3}
+                  alt="Third slide"
+                />
+              </ReactBootstrap.Carousel.Item>
+            </ReactBootstrap.Carousel>
+            </div>
+          </div>
         { this.state.showModal ? (
           <Modal 
             showModal={this.state.showModal} 
@@ -130,7 +166,6 @@ class App extends Component {
       <br />
       <br />
     </div>
-  </div>
     );
   }
 }

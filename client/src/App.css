@@ -52,11 +52,28 @@
   background: #4C4C4C;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.logo-container {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.login-button {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 120px);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.carousel-container {
+  width: 99%;
+  left: 50%;
+  margin: auto;
+  box-shadow: 0px 3px 10px #888888;
+}
+
+.carousel {
+  position: relative;
+  height: 700px;
+  overflow: hidden;
 }

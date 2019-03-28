@@ -22,6 +22,7 @@ class App extends Component {
       password: "",
       firstname: "",
       lastname: "",
+      permissions: "",
       properties: null,
       loginSuccess: false
     }
@@ -66,13 +67,15 @@ class App extends Component {
     input_email, 
     input_password, 
     input_firstname, 
-    input_lastname) => {
+    input_lastname,
+    input_permissions) => {
     this.setState({
       signUp: input_signUp,
       email: input_email,
       password: input_password,
       firstname: input_firstname,
-      lastname: input_lastname
+      lastname: input_lastname,
+      permissions: input_permissions
     }, () => {
       this.handleLogin();
     })
@@ -89,15 +92,14 @@ class App extends Component {
         password:this.state.password,
         firstname:this.state.firstname,
         lastname:this.state.lastname,
-        signUp:this.state.signUp
+        signUp:this.state.signUp,
+        permissions: this.state.permissions
       })
     });
     const body = await response.text();
     this.setState({responseToPost:body});
-//<<<<<<< frances
     this.setState({showModal:false});
     window.user_email = this.state.email;
-//=======
     userEmail = this.state.email;
     this.setState({
       showModal:false,

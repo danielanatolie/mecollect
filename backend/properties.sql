@@ -19,8 +19,8 @@ INSERT INTO property (propertyNumber, originalPrice, propertyAddress, yearbuilt,
 (12381, 1000000.0, '1 test a5te California', 2018, 'mansion', 10, 3, NULL),
 (12382, 2000000.0, '1 test a5te2 New York', 2018, 'mansion', 10, 5, 'test2@gmail.com'),
 (12383, 1000000.0, '1 test a5te3 Vancouver', 2018, 'mansion', 10, 2, 'test2@gmail.com'),
-(12384, 3000000.0, '1 test a5te4 Toronto', 2018, 'mansion', 10, 1, NULL),
-(12385, 5000000.0, '1 test a5te5 Los Angeles', 2018, 'mansion', 10, 7, 'test2@gmail.com');
+(12384, 3000000.0, '1 test a5te4 Toronto', 2018, 'apartment', 10, 1, NULL),
+(12385, 5000000.0, '1 test a5te5 Los Angeles', 2018, 'apartment', 10, 7, 'test2@gmail.com');
 
 CREATE TABLE account (
 	email VARCHAR,
@@ -59,7 +59,11 @@ INSERT INTO orders (orderNumber, date, email, listedprice, propertyNumber, statu
 (102, 'Mon. Feb. 25, 2019', 'test1@gmail.com', 1000000, 12381, 'approved'), 
 (105, 'Mon. Feb. 25, 2019', 'test2@gmail.com', 2000000, 12382, 'pending'),
 (12, 'Mon. Feb. 25, 2019', 'test3@gmail.com', 500000, 12383, 'pending'),
-(32, 'Mon. Feb. 25, 2019', 'test4@gmail.com', 5000000, 12384, 'pending'),
+(32, 'Mon. Feb. 25, 2019', 'test4@gmail.com', 5000000, 12381, 'pending'),
+(33, 'Mon. Feb. 25, 2019', 'test4@gmail.com', 5000000, 12382, 'pending'),
+(34, 'Mon. Feb. 25, 2019', 'test4@gmail.com', 5000000, 12383, 'pending'),
+(35, 'Mon. Feb. 25, 2019', 'test4@gmail.com', 5000000, 12384, 'pending'),
+(36, 'Mon. Feb. 25, 2019', 'test4@gmail.com', 5000000, 12385, 'pending'),
 (421, 'Mon. Feb. 25, 2019', 'test5@gmail.com', 1000000, 12385, 'pending');
 
 CREATE TABLE payments (

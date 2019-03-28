@@ -386,6 +386,47 @@ function getAllProperties(req, res, next) {
       });
   }
 
+  function countProperties(req, res, next) {
+    var sql = 'SELECT COUNT(*) FROM property ';
+    var propertyType = req.body.propertyType; 
+    sql += propertyType == 'all' ? '' : ('where propertytype = \'' + propertyType + '\'');
+    db.any(sql)
+      .then(function(data) {
+        res.status(200)
+          .json({
+            data
+          })
+      }).catch(function(err){
+        return next(err);
+      });
+  }
+
+  function avgProperties(req, res, next) {
+    var sql = 'SELECT propertyType, AVG(originalPrice) from property group by propertyType';
+    db.any(sql)
+      .then(function(data) {
+        res.status(200)
+          .json({
+            data
+          })
+      }).catch(function(err){
+        return next(err);
+      });
+  }
+
+  function boughtAllProperties(req, res, next) {
+    var sql = 'SELECT * from account a WHERE NOT EXISTS ((Select p.propertyNumber from property p) EXCEPT (SELECT o.propertyNumber from orders o where o.email = a.email))'
+    db.any(sql)
+      .then(function(data) {
+        res.status(200)
+          .json({
+            data
+          })
+      }).catch(function(err){
+        return next(err);
+      });
+  }
+
 module.exports = {
     getAllUsers: getAllUsers,
     getProperty: getProperty,
@@ -408,5 +449,8 @@ module.exports = {
     getPermissions: getPermissions,
     getPropertiesByOwner: getPropertiesByOwner,
     getAllProperties: getAllProperties,
-    createPayment: createPayment
+    createPayment: createPayment,
+    countProperties: countProperties,
+    avgProperties: avgProperties,
+    boughtAllProperties: boughtAllProperties
 };

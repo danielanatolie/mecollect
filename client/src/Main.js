@@ -43,7 +43,12 @@ class Main extends Component {
     return (
       <div className="Account">
         <Header />
-        <h1>Welcome to MyPropeties!</h1>
+        
+        <h1 style={{textAlign: 'center'}}>
+        <img style={{width: 170, height:120}} src={ require('./images/highrise.png') } />
+        <br />
+        Welcome to MyProperties!</h1>
+        <p style={{textAlign: 'center'}}>Buy, sell, and browse through thousands of luxurious properties.</p>
         <div style={{float: "left", margin: 10}}>Property Type:</div>
         <div style={{width: 150, margin: 10}}>
           <Dropdown  options={[{value: 'all', label:'Show All'}, 

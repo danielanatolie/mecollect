@@ -57,7 +57,6 @@ class BuyingAgreements extends Component {
       this.setState({
         user_permissions: body.data[0].permissions
       });
-      //console.log(this.state.user_permissions);
       if (this.state.user_permissions === "agent") {
         this.setState({
           is_agent: true
@@ -80,7 +79,6 @@ class BuyingAgreements extends Component {
   };
 
   approveAgreement = async propertyNum => {
-    //console.log(propertyNum);
     const response = await fetch("/api/approve_agreement", {
       method: "POST",
       body: JSON.stringify({
@@ -123,30 +121,28 @@ class BuyingAgreements extends Component {
       {
         Header: "Order #",
         accessor: "ordernumber",
-        maxWidth: 120
       },
       {
         Header: "Property #",
         accessor: "propertynumber",
-        maxWidth: 120
       },
       {
-        Header: "Date",
+        Header: "Date Purchased",
         accessor: "date",
-        maxWidth: 200
       },
       {
-        Header: "Summary",
+        Header: "Final Price",
         Cell: props => (
           <Fragment>
-            <span>Listed price: </span>
-            <span>{props.original.listedprice}</span>
-            <br />
+            {/* <span>Listed price: $</span> */}
+            <span>${props.original.listedprice} CAD</span>
+            {/* <br />
             <span>Buyer e-mail: </span>
-            <span className="buyer account">{props.original.email}</span>
+            <span className="buyer account">{props.original.email}</span> */}
           </Fragment>
         ),
-        filterable: false
+        filterable: false,
+        sortable: false,
       },
       {
         Header: "Status",
@@ -183,7 +179,8 @@ class BuyingAgreements extends Component {
             ) : null}
           </span>
         ),
-        filterable: false
+        filterable: false,
+        sortable: false,
       }
     ];
 
@@ -191,18 +188,21 @@ class BuyingAgreements extends Component {
       return (
         <div>
           <Header />
-          <h1>{this.state.user_email}</h1>
-          <h1>Buying Agreements</h1>
+          <h1 style={{textAlign: 'center'}}>Buying Agreements</h1>
+          <p style={{textAlign: 'center'}}>Check the status of any buying agreement.</p>
           Search:{" "}
           <input
             placeholder="Order #, Date"
             value={this.state.search}
             onChange={e => this.setState({ search: e.target.value })}
           />
+          <br />
+          <br/>
           <ReactTable
+            className="-striped -highlight"
             columns={columns}
             data={data}
-            sortable={false}
+            sortable={true}
             order={["ordernumber"]}
             defaultSorted={[
               {

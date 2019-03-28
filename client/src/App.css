@@ -33,7 +33,7 @@
   list-style-type: none;
   padding: 0;
   overflow: hidden;
-  background-color: #7F7F7F;
+  background-color: #4285F4;
 }
 
 .Header li {
@@ -46,10 +46,11 @@
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  z-index: 100;;
 }
 
 .Header li:hover {
-  background: #4C4C4C;
+  background: #429EFF;
 }
 
 .logo-container {

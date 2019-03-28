@@ -121,7 +121,7 @@ app.post('/api/send_agreement_form', (req, res) => {
 
   const mailOptions = {
     from: '"GetProperties" <cs304.getProperties@gmail.com>', // sender address
-    to: 'frances.sin31@gmail.com', // list of receivers
+    to: 'frances.sin31@gmail.com,daniel.anatolie@gmail.com', // list of receivers
     subject: 'GetProperties Buying Agreement', // Subject line
     html: `<h3>${req.body.title}</h3>
     <p>Your request to buy Property #${req.body.propertynumber} for $${req.body.price} 

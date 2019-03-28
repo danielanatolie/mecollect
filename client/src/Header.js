@@ -45,7 +45,7 @@ class Header extends Component {
 			<div className="Header">
 			<nav>
 				<ul>
-				<li><Link to='/'>Sign Out</Link></li>
+				<li style={{float: 'right'}}><Link to='/'>Sign Out</Link></li>
 				<li><Link to='/home'>Home</Link></li>
 				<li><Link to='/account'>My Account</Link></li>
 				<li><Link to='/buying_agreements'>Buying Agreements</Link></li>

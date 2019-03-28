@@ -33,7 +33,7 @@
   list-style-type: none;
   padding: 0;
   overflow: hidden;
-  background-color: #7F7F7F;
+  background-color: #4285F4;
 }
 
 .Header li {
@@ -46,17 +46,35 @@
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  z-index: 100;;
 }
 
 .Header li:hover {
-  background: #4C4C4C;
+  background: #429EFF;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.logo-container {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.login-button {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 120px);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.carousel-container {
+  width: 99%;
+  left: 50%;
+  margin: auto;
+  box-shadow: 0px 3px 10px #888888;
+}
+
+.carousel {
+  position: relative;
+  height: 700px;
+  overflow: hidden;
 }

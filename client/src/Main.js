@@ -110,18 +110,35 @@ class Main extends Component {
     return (
       <div className="Account">
         <Header />
-        <h1>Welcome to MyPropeties!</h1>
-        <div style={{margin: 10}}>
-          <div>Members Who Bought All Properties: {this.state.boughtAllProperties == "" ? "No One!" : this.state.boughtAllProperties}</div>
-          <div>{this.state.avg}</div>
-          <div style={{float: "left"}}>Property Type:</div>
-          <div style={{width: 150}}>
-            <Dropdown  options={[{value: 'all', label:'Show All'}, 
-            {value: 'mansion', label: 'Mansion'}, 
-            {value: 'apartment', label: 'Apartment'}]} 
-            onChange={this.redrawTable} placeholder={this.state.selected}/>
-          </div>
-          <div>Number of results: {this.state.resultCount}</div>      
+// <<<<<<< Alex
+//         <h1>Welcome to MyPropeties!</h1>
+//         <div style={{margin: 10}}>
+//           <div>Members Who Bought All Properties: {this.state.boughtAllProperties == "" ? "No One!" : this.state.boughtAllProperties}</div>
+//           <div>{this.state.avg}</div>
+//           <div style={{float: "left"}}>Property Type:</div>
+//           <div style={{width: 150}}>
+//             <Dropdown  options={[{value: 'all', label:'Show All'}, 
+//             {value: 'mansion', label: 'Mansion'}, 
+//             {value: 'apartment', label: 'Apartment'}]} 
+//             onChange={this.redrawTable} placeholder={this.state.selected}/>
+//           </div>
+//           <div>Number of results: {this.state.resultCount}</div>      
+// ======= Combined with Master:
+        
+        <h1 style={{textAlign: 'center'}}>
+        <img style={{width: 170, height:120}} src={ require('./images/highrise.png') } />
+        <br />
+        Welcome to MyProperties!</h1>
+        <p style={{textAlign: 'center'}}>Buy, sell, and browse through thousands of luxurious properties.</p>
+        <div>Members Who Bought All Properties: {this.state.boughtAllProperties == "" ? "No One!" : this.state.boughtAllProperties}</div>
+        <div>{this.state.avg}</div>
+        <div style={{float: "left", margin: 10}}>Property Type:</div>
+        <div style={{width: 150, margin: 10}}>
+          <Dropdown  options={[{value: 'all', label:'Show All'}, 
+          {value: 'mansion', label: 'Mansion'}, 
+          {value: 'apartment', label: 'Apartment'}]} 
+          onChange={this.redrawTable} placeholder={this.state.selected}/>
+// >>>>>>> master
         </div>
         <div id="properties">
           <Table properties={this.state.properties}></Table>

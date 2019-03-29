@@ -414,6 +414,19 @@ function getAllProperties(req, res, next) {
       });
   }
 
+  function maxPrice(req, res, next) {
+    var sql = 'SELECT MAX(originalPrice) from property';
+    db.any(sql)
+      .then(function(data) {
+        res.status(200)
+          .json({
+            data
+          })
+      }).catch(function(err){
+        return next(err);
+      });
+  }
+
   function boughtAllProperties(req, res, next) {
     var sql = 'SELECT * from account a WHERE NOT EXISTS ((Select p.propertyNumber from property p) EXCEPT (SELECT o.propertyNumber from orders o where o.email = a.email))'
     db.any(sql)
@@ -452,5 +465,6 @@ module.exports = {
     createPayment: createPayment,
     countProperties: countProperties,
     avgProperties: avgProperties,
-    boughtAllProperties: boughtAllProperties
+    boughtAllProperties: boughtAllProperties,
+    maxPrice: maxPrice
 };

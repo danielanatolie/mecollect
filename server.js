@@ -112,6 +112,8 @@ app.get('/api/agreements', db.getAllBuyingAgreements);
 
 app.get('/api/boughtAllProperties', db.boughtAllProperties);
 
+app.get('/api/maxPrice', db.maxPrice);
+
 app.post('/api/send_agreement_form', (req, res) => {
   var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',

@@ -13,7 +13,8 @@ class Main extends Component {
       selected: "Show All",
       resultCount: 0,
       avg: '',
-      boughtAllProperties: ''
+      boughtAllProperties: '',
+      max: ''
     }
   }
 
@@ -25,8 +26,11 @@ class Main extends Component {
     this.countProperties('all')
       .catch(err => console.log(err));
 
-    this.getAvg();
-
+    this.getAvg()
+      .catch(err => console.log('getAvg() Error: ' + err));
+    this.getMaxPrice();
+    //   .then(data => this.setState({ max: data }))
+    //   .catch(err => console.log('Got an error:', err));
     this.getBoughtAllProperties();
   }
 
@@ -76,6 +80,17 @@ class Main extends Component {
     this.setState({ resultCount: json.count });
   }
 
+  getMaxPrice = async () => {
+    const response = await fetch('/api/maxPrice', {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.text()).then(text => JSON.parse(text)).then(json => {
+      this.setState({max: json.data[0].max});
+    });
+  }
+
   getAvg = async () => {
     const response = await fetch('/api/avgProperties', {
       method: "GET",
@@ -118,6 +133,7 @@ class Main extends Component {
         <p style={{textAlign: 'center'}}>
           <div>Members Who Bought All Properties: {this.state.boughtAllProperties == "" ? "No One!" : this.state.boughtAllProperties}</div>
           <div>{this.state.avg}</div>
+          <div>{'Maximum price: ' + this.state.max}</div>
         </p>
         <div style={{float: "left", margin: 10}}>Property Type:</div>
         <div style={{width: 150, margin: 10}}>
